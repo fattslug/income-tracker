@@ -25,7 +25,7 @@ const columns = [
   {
     property: "tip",
     header: "Tip Received",
-    render: datum => amountFormatter.format(datum.tip / 100),
+    render: datum => amountFormatter.format(datum.tip),
     align: "end",
     aggregate: "sum",
     footer: { aggregate: true }
