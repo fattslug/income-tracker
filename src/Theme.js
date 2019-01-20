@@ -8,6 +8,15 @@ const Theme = {
       size: '18px',
       height: '20px',
     },
+    anchor: {
+      textDecoration: 'none',
+      hover: {
+        textDecoration: 'none'
+      },
+      active: {
+        textDecoration: 'none'
+      }
+    }
   },
 };
 

@@ -8,6 +8,7 @@ const AppBar = (props) => (
         tag='header'
         direction='row'
         align='center'
+        alignContent='center'
         justify='between'
         background='brand'
         pad={

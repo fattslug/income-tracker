@@ -9,23 +9,17 @@ const amountFormatter = new Intl.NumberFormat("en-US", {
 
 const columns = [
   {
-    property: "date",
-    header: "Date",
-    render: datum =>
-      datum.date && new Date(datum.date).toLocaleDateString("en-US")
+    property: "clientName",
+    header: "Client",
+  },
+  {
+    property: "paymentType",
+    header: "Payment",
   },
   {
     property: "amount",
-    header: "Amount Received",
+    header: "Amount",
     render: datum => amountFormatter.format(datum.amount),
-    align: "end",
-    aggregate: "sum",
-    footer: { aggregate: true }
-  },
-  {
-    property: "tip",
-    header: "Tip Received",
-    render: datum => amountFormatter.format(datum.tip),
     align: "end",
     aggregate: "sum",
     footer: { aggregate: true }
@@ -35,24 +29,27 @@ const columns = [
 const DATA = [
   {
     date: "2018-06-10",
-    tip: 200 * 0.20,
+    clientName: "Sean Powell",
+    paymentType: "Cash",
     amount: 200
   },
   {
     date: "2018-06-09",
-    tip: 85 * 0.20,
+    clientName: "Wayland Jeong",
+    paymentType: "Venmo",
     amount: 85
   },
   {
     date: "2018-06-11",
-    tip: 65 * 0.30,
+    clientName: "Justin Ferrales",
+    paymentType: "Card",
     amount: 65
   }
 ];
 
 const EntryTable = (props) => (
-  <Box>
-    <DataTable columns={columns} data={DATA} />
+  <Box pad='medium'>
+    <DataTable size='small' columns={columns} data={DATA} />
   </Box>
 )
 

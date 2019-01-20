@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { Box, Button } from 'grommet';
+
+import EntryForm from '../components/EntryForm';
 
 class ViewAllEntries extends Component {
   render() {
     return (
-      <Box>
-        
-      </Box>
+      <EntryForm />
     );
   }
 }
