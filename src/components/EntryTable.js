@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { Box, DataTable } from 'grommet'
+import axios from 'axios';
 
 const amountFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -9,48 +10,45 @@ const amountFormatter = new Intl.NumberFormat("en-US", {
 
 const columns = [
   {
-    property: "clientName",
+    property: "ClientName",
     header: "Client",
   },
   {
-    property: "paymentType",
+    property: "PaymentType",
     header: "Payment",
   },
   {
-    property: "amount",
+    property: "AmountPaid",
     header: "Amount",
-    render: datum => amountFormatter.format(datum.amount),
+    render: datum => amountFormatter.format(datum.AmountPaid || 0),
     align: "end",
     aggregate: "sum",
     footer: { aggregate: true }
   }
 ];
 
-const DATA = [
-  {
-    date: "2018-06-10",
-    clientName: "Sean Powell",
-    paymentType: "Cash",
-    amount: 200
-  },
-  {
-    date: "2018-06-09",
-    clientName: "Wayland Jeong",
-    paymentType: "Venmo",
-    amount: 85
-  },
-  {
-    date: "2018-06-11",
-    clientName: "Justin Ferrales",
-    paymentType: "Card",
-    amount: 65
+class EntryTable extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: []
+    }
+    this.getData();
   }
-];
 
-const EntryTable = (props) => (
-  <Box pad='medium'>
-    <DataTable size='small' columns={columns} data={DATA} />
-  </Box>
-)
+  getData = () => {
+    axios.get(process.env.REACT_APP_SERVICE_URL + '/entries/').then((result) => {
+      this.setState({ data: result.data.body });
+    });
+  }
+
+  render() {
+    return(
+      <Box pad='medium'>
+        <DataTable size='large' columns={columns} data={this.state.data} primaryKey='_id' />
+      </Box>
+    );
+  }
+}
 
 export default EntryTable;

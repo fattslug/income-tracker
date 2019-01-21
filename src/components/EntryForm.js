@@ -74,7 +74,6 @@ class EntryForm extends Component {
     
     currentValues[fieldName] = newValue;
     currentErrors[fieldName] = this.validateField(fieldName);
-    console.log(this.validateField(fieldName));
 
     this.setState({
       values: currentValues,
