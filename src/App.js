@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import { Anchor, Grommet, Box, Text } from 'grommet';
+import { BrowserRouter as Router, Link, Route } from "react-router-dom";
+import { Grommet, Box, Text } from 'grommet';
 import Theme from './Theme';
 
 // Components
@@ -17,9 +17,9 @@ class App extends Component {
         <Router fill={true} width='xlarge'>
           <Box>
             <AppBar>
-              <Anchor href="/">
+              <Link to="/">
                 <Text size='large' color="white">Income Tracker</Text>
-              </Anchor>
+              </Link>
             </AppBar>
             
             <Box flex={true} fill={true}>
