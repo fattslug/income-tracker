@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Box, Button, FormField, MaskedInput, Select, Text, TextInput } from 'grommet';
+import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 
 function Error(props) {
@@ -119,6 +120,7 @@ class EntryForm extends Component {
         // Submit data
         axios.post(process.env.REACT_APP_SERVICE_URL + '/entries/', { entry: this.state.values }).then((result) => {
           console.log('Result', result);
+          this.props.history.push('/');
         });
       }
     });
@@ -172,14 +174,6 @@ class EntryForm extends Component {
                   value={ServicesRendered}
                   options={serviceOptions}
                   onChange={({ value: nextValue }) => this.handleChange('ServicesRendered', nextValue)}
-                  // onSearch={text => {
-                  //   const exp = new RegExp(text, "i");
-                  //   this.setState({
-                  //     options: {
-                  //       serviceOptions: serviceOptions.filter(service => exp.test(service.name))
-                  //     }
-                  //   });
-                  // }}
                 />
               </FormField>
               <Error show={errors.ServicesRendered}>Please select services rendered for this client.</Error>
@@ -217,4 +211,4 @@ class EntryForm extends Component {
   }
 }
 
-export default EntryForm;
+export default withRouter(EntryForm);
