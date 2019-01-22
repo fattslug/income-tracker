@@ -136,9 +136,9 @@ class EntryForm extends Component {
               <Text size="xlarge">Add an entry</Text>
             </Box>
             <Box pad="medium">
-              <FormField label="Client Name" htmlFor="text-input">
+              <FormField label="Client Name" htmlFor="clientName">
                 <TextInput
-                  id="text-input"
+                  id="clientName"
                   placeholder="Client Name"
                   value={ClientName}
                   onChange={(e) => this.handleChange('ClientName', e.target.value)}
@@ -147,9 +147,9 @@ class EntryForm extends Component {
               <Error show={errors.ClientName}>Please enter a client name.</Error>
             </Box>
             <Box pad="medium">
-              <FormField label="Payment Type" htmlFor="text-input">
+              <FormField label="Payment Type" htmlFor="paymentType">
                 <Select
-                  id="select"
+                  id="paymentType"
                   name="select"
                   placeholder="Select"
                   value={PaymentType}
@@ -160,8 +160,9 @@ class EntryForm extends Component {
               <Error show={errors.PaymentType}>Please select a payment type.</Error>
             </Box>
             <Box pad="medium">
-              <FormField label="Services" htmlFor="text-input">
+              <FormField label="Services" htmlFor="servicesRendered">
                 <Select
+                  id="servicesRendered"
                   size="medium"
                   placeholder="Select"
                   multiple
@@ -171,21 +172,22 @@ class EntryForm extends Component {
                   value={ServicesRendered}
                   options={serviceOptions}
                   onChange={({ value: nextValue }) => this.handleChange('ServicesRendered', nextValue)}
-                  onSearch={text => {
-                    const exp = new RegExp(text, "i");
-                    this.setState({
-                      options: {
-                        serviceOptions: serviceOptions.filter(service => exp.test(service.name))
-                      }
-                    });
-                  }}
+                  // onSearch={text => {
+                  //   const exp = new RegExp(text, "i");
+                  //   this.setState({
+                  //     options: {
+                  //       serviceOptions: serviceOptions.filter(service => exp.test(service.name))
+                  //     }
+                  //   });
+                  // }}
                 />
               </FormField>
               <Error show={errors.ServicesRendered}>Please select services rendered for this client.</Error>
             </Box>
             <Box pad="medium">
-              <FormField label="Amount Paid" htmlFor="text-input">
+              <FormField label="Amount Paid" htmlFor="amountPaid">
                 <MaskedInput
+                  id="amountPaid"
                   mask={[
                     { fixed: "$" },
                     {
