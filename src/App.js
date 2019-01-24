@@ -9,6 +9,7 @@ import AppBar from './components/AppBar';
 // Screens
 import ViewAllEntries from './screens/ViewAllEntries';
 import AddEntry from './screens/AddEntry';
+import Login from './screens/Login';
 
 class App extends Component {
   render() {
@@ -23,6 +24,7 @@ class App extends Component {
             </AppBar>
             
             <Box flex={true} fill={true}>
+              <Route path='/login' exact component={Login}></Route>
               <Route path='/' exact component={ViewAllEntries}></Route>
               <Route path='/add' exact component={AddEntry}></Route>
             </Box>
