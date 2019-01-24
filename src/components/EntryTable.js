@@ -12,12 +12,10 @@ const columns = [
   {
     property: "ClientName",
     header: "Client",
-  },
-  {
+  }, {
     property: "PaymentType",
     header: "Payment",
-  },
-  {
+  }, {
     property: "AmountPaid",
     header: "Amount",
     render: datum => amountFormatter.format(datum.AmountPaid || 0),
