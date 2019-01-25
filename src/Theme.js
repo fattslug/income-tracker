@@ -18,6 +18,12 @@ const Theme = {
       }
     }
   },
+  text: {
+    xlarge: {
+      size: '42px',
+      height: '56px',
+    }
+  },
 };
 
 export default Theme;
