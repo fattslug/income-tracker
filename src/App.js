@@ -10,12 +10,32 @@ import AppBar from './components/AppBar';
 import ViewAllEntries from './screens/ViewAllEntries';
 import AddEntry from './screens/AddEntry';
 import Login from './screens/Login';
+import PrivateRoute from './authentication/PrivateRoute';
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      isAuthenticated: false,
+      user: null,
+      token: ''
+    }
+  }
+
+  logout = () => {
+    this.setState({isAuthenticated: false, token: '', user: null})
+  };
+
+  googleResponse = (e) => {};
+
+  onFailure = (error) => {
+    alert(error);
+  }
+
   render() {
     return (
       <Grommet theme={Theme}>
-        <Router fill={true} width='xlarge'>
+        <Router>
           <Box>
             <AppBar>
               <Link to="/">
@@ -25,8 +45,8 @@ class App extends Component {
             
             <Box flex={true} fill={true}>
               <Route path='/login' exact component={Login}></Route>
-              <Route path='/' exact component={ViewAllEntries}></Route>
-              <Route path='/add' exact component={AddEntry}></Route>
+              <PrivateRoute path='/' exact component={ViewAllEntries}></PrivateRoute>
+              <PrivateRoute path='/add' exact component={AddEntry}></PrivateRoute>
             </Box>
           </Box>
         </Router>
