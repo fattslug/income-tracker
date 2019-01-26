@@ -22,16 +22,6 @@ class App extends Component {
     }
   }
 
-  logout = () => {
-    this.setState({isAuthenticated: false, token: '', user: null})
-  };
-
-  googleResponse = (e) => {};
-
-  onFailure = (error) => {
-    alert(error);
-  }
-
   render() {
     return (
       <Grommet theme={Theme}>
