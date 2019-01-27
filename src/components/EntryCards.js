@@ -45,13 +45,27 @@ class EntryCards extends Component {
 }
 
 class EntryCard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false
+    }
+  }
+
   getPaymentColor = (paymentType) => {
     return paymentColors[paymentType];
+  }
+
+  toggleCardState = () => {
+    this.setState({
+      open: !this.state.open 
+    });
   }
 
   render() {
     const cardData = this.props.cardData;
     const colors = this.getPaymentColor(cardData.PaymentType);
+    const contentClasses = `content-box-title ${this.state.open ? 'content-box__up' : 'content-box__down'}`;
     return (
       // Card Container
       <Box
@@ -59,7 +73,8 @@ class EntryCard extends Component {
         margin={{ vertical: 'small', horizontal: 'medium' }}
         alignContent='stretch'
         className='card-container'
-        height='xsmall'
+        height={this.state.open ? 'small' : 'xsmall'}
+        onClick={(event) => this.toggleCardState()}
       >
         {/* Date Area */}
         <Box
@@ -92,49 +107,51 @@ class EntryCard extends Component {
           justify='center'
           fill
         >
-          {/* Title Area */}
-          <Box
-            direction='row'
-            justify='between'
-            alignContent='start'
-            align='start'
-          >
-            {/* Amount Paid */}
-            <Text
-              size='large'
-              weight='bold'
-              className='content-box__amount'
-            >
-              {amountFormatter.format(cardData.AmountPaid || 0)}
-            </Text>
-            {/* END Amount Paid */}
-            
-            {/* Payment Type */}
+          <Box className={contentClasses}>
+            {/* Title Area */}
             <Box
-              pad={{ horizontal: 'medium', vertical: 'xsmall' }}
-              round='medium'
-              margin={{ left: 'small' }}
-              background={colors.bgColor}
-              align='center'
-              justify='center'
+              direction='row'
+              justify='between'
+              alignContent='start'
+              align='start'
             >
+              {/* Amount Paid */}
               <Text
-                size='xsmall'
-                color={colors.text}
+                size='large'
+                weight='bold'
+                className='content-box__amount'
               >
-                {cardData.PaymentType}
+                {amountFormatter.format(cardData.AmountPaid || 0)}
               </Text>
+              {/* END Amount Paid */}
+              
+              {/* Payment Type */}
+              <Box
+                pad={{ horizontal: 'medium', vertical: 'xsmall' }}
+                round='medium'
+                margin={{ left: 'small' }}
+                background={colors.bgColor}
+                align='center'
+                justify='center'
+              >
+                <Text
+                  size='xsmall'
+                  color={colors.text}
+                >
+                  {cardData.PaymentType}
+                </Text>
+              </Box>
+              {/* END Payment Type */}
+
             </Box>
-            {/* END Payment Type */}
+            {/* END Title Area */}
 
+            {/* Client Name */}
+            <Text size='small'>
+              {cardData.ClientName}
+            </Text>
+            {/* END Client Name */}
           </Box>
-          {/* END Title Area */}
-
-          {/* Client Name */}
-          <Text size='small'>
-            {cardData.ClientName}
-          </Text>
-          {/* END Client Name */}
         </Box>
         {/* END Card Content Area */}
         {/* {cardData.ServicesRendered.map((service) => { return service.name })}<br /> */}

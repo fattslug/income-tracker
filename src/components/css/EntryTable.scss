@@ -16,7 +16,21 @@
   border-top-right-radius: 20px;
   border-bottom-right-radius: 20px;
 
+  &-title {
+    transition: all 0.2s ease-in-out;
+  }
+  &__up {
+    transform: translateY(-50px);
+  }
+  &__down {
+    transform: translateY(0);
+  }
+
   &__amount {
     font-size: 30px
   }
+}
+
+.card-container {
+  transition: all 0.2s ease-in-out;
 }
