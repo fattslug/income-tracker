@@ -8,7 +8,6 @@ class PrivateRoute extends Component {
     super(props);
     if (!auth.isAuthenticated) {
       auth.setSession((success) => {
-        console.log('Setting session...', success);
         if (success) {
           this.props.history.push('/');
         }
