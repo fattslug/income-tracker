@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Link, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Link,
+  Route
+} from "react-router-dom";
 import { Grommet, Box, Text } from 'grommet';
 import Theme from './Theme';
 
@@ -32,7 +36,7 @@ class App extends Component {
                 <Text size='large' color="white">Income Tracker</Text>
               </Link>
             </AppBar>
-            
+
             <Box flex={true} fill={true}>
               <Route path='/login' exact component={Login}></Route>
               <PrivateRoute path='/' exact component={ViewAllEntries}></PrivateRoute>
