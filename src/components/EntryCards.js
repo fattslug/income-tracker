@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Box, Text } from 'grommet'
-import axios from 'axios';
 
 import './css/EntryTable.scss';
 
@@ -34,28 +33,10 @@ const paymentColors = {
 }
 
 class EntryCards extends Component {
-  constructor (props) {
-    super(props);
-    this.state = {
-      data: []
-    }
-    this.getData()
-  }
-
-  getData = () => {
-    axios.get(process.env.REACT_APP_SERVICE_URL + '/entries/', {
-      headers: { 'Authorization': 'bearer ' + localStorage.jwt }
-    }).then((result) => {
-      this.setState({ data: result.data.body });
-    }).catch((err) => {
-      console.log('Error:', err);
-    });
-  }
-
   render() {
     return (
       <Box className='entryCards' width='medium'>
-        {this.state.data.map((data, index) => {
+        {this.props.cardData.map((data, index) => {
           return (<EntryCard key={index} cardData={data} />);
         })}
       </Box>
