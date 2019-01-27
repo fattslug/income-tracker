@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Box, Button } from 'grommet';
 import { Link } from 'react-router-dom';
 
-import EntryTable from '../components/EntryTable';
+import EntryCards from '../components/EntryCards';
 
 class ViewAllEntries extends Component {
   render() {
@@ -13,8 +13,8 @@ class ViewAllEntries extends Component {
             <Button label="Add Entry" onClick={() => {}} />
           </Link>
         </Box>
-        <Box align="center" fill={true} width='xlarge'>
-          <EntryTable />
+        <Box align="center" fill={true} width='xlarge' className='entryList-container'>
+          <EntryCards />
         </Box>
       </Box>
     );
