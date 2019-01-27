@@ -1,22 +1,35 @@
 import React, { Component } from 'react';
-import { Route, Redirect } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
-import queryString from 'query-string';
+import { Route, Redirect, withRouter } from 'react-router-dom';
+
+import auth from '../authentication/AuthHelper';
 
 class PrivateRoute extends Component {
-  componentDidMount() {
-    var query = queryString.parse(this.props.location.search);
-    if (query.token) {
-      localStorage.setItem('jwt', query.token);
-      this.props.history.push('/');
+  constructor(props) {
+    super(props);
+    if (!auth.isAuthenticated) {
+      auth.setSession((success) => {
+        console.log('Setting session...', success);
+        if (success) {
+          this.props.history.push('/');
+        }
+      });
     }
   }
 
   render() {
+    if (auth.isAuthenticated) {
+      auth.validateToken((err, success) => {
+        if (err || !success) {
+          auth.logout(() => {
+            this.props.history.push('/login');
+          })
+        }
+      });
+    }
     const { component: Component, ...rest } = this.props;
     return(
       <Route {...rest} render={props => (
-        localStorage.getItem('jwt')
+        auth.isAuthenticated
           ? <Component {...props} />
           : <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
       )} />

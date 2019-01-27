@@ -118,9 +118,14 @@ class EntryForm extends Component {
     this.validateForm().then((hasErrors) => {
       if (!hasErrors) {
         // Submit data
-        axios.post(process.env.REACT_APP_SERVICE_URL + '/entries/', { entry: this.state.values }).then((result) => {
-          console.log('Result', result);
+        axios.post(process.env.REACT_APP_SERVICE_URL + '/entries/',
+          { entry: this.state.values }, {
+            headers: { 'Authorization': 'bearer ' + localStorage.jwt }
+          }).then((result) => {
+          this.setState({ errors: { Server: false } });
           this.props.history.push('/');
+        }).catch((err) => {
+          this.setState({ errors: { Server: true } });
         });
       }
     });
@@ -201,6 +206,7 @@ class EntryForm extends Component {
               </FormField>
               <Error show={errors.AmountPaidString}>Please enter the amount paid by this client.</Error>
             </Box>
+            <Error show={errors.Server}>Error submitting form. Please try again later.</Error>
             <Box pad="medium">
               <Button label="Submit" type='submit' primary={true} onClick={(e) => { this.handleSubmit(e) }} />
             </Box>

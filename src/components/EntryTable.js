@@ -35,8 +35,13 @@ class EntryTable extends Component {
   }
 
   getData = () => {
-    axios.get(process.env.REACT_APP_SERVICE_URL + '/entries/').then((result) => {
+    console.log('Local JWT:', localStorage.jwt);
+    axios.get(process.env.REACT_APP_SERVICE_URL + '/entries/', {
+      headers: { 'Authorization': 'bearer ' + localStorage.jwt }
+    }).then((result) => {
       this.setState({ data: result.data.body });
+    }).catch((err) => {
+      console.log('Error:', err);
     });
   }
 
