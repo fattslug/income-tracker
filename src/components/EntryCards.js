@@ -65,6 +65,7 @@ class EntryCard extends Component {
         <Box
           background='#333333'
           pad={{ horizontal: 'medium' }}
+          justify='center'
           elevation='small'
           className='date-box'
         >
