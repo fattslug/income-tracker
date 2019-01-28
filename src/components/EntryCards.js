@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom';
 import { Box, Text } from 'grommet'
 
 import './css/EntryCards.scss';
@@ -68,15 +69,17 @@ class EntryCard extends Component {
         <Box
           direction='row'
           wrap={true}
+          margin={{ top: 'medium' }}
         >
-          {cardData.ServicesRendered.map((service) => {
+          {cardData.ServicesRendered.map((service, index) => {
             return(
               <Box
-                pad='medium'
+                key={index}
+                pad='small'
                 round='medium'
                 margin='small'
                 border={{ side: 'all', color: '#444444', size: 'small' }}
-                style={{ opacity: 0, animationName: 'swipeIn', animationDuration: '0.5s', animationFillMode: 'forwards' }}
+                style={{ opacity: 0, animationName: 'swipeIn', animationDuration: '0.3s', animationFillMode: 'forwards' }}
               >
                 <Text size='small' color='#444444'>{service.name}</Text>
               </Box>
@@ -88,11 +91,51 @@ class EntryCard extends Component {
     return null;
   }
 
+  showControls = () => {
+      return(
+        <Box
+          height='100%'
+          className={this.state.open ? 'controls in rounded' : 'controls out' }
+        >
+          <Box
+            height='50%'
+            background='#ce482b'
+            style={{ borderTopRightRadius: '20px' }}
+            className='control-button'
+            align='center'
+            justify='center'
+          >
+            <Text
+              className={this.state.open ? 'control in' : 'control out' }
+            >
+              <Link to='/' style={{ color: '#FFFFFF' }}>
+                <i className="fas fa-trash"></i>
+              </Link>
+            </Text>
+          </Box>
+          <Box
+            height='50%'
+            background='#3c6db5'
+            style={{ borderBottomRightRadius: '20px' }}
+            className='control-button'
+            align='center'
+            justify='center'
+          >
+            <Text
+              className={this.state.open ? 'control in' : 'control out' }
+            >
+              <Link to='/' style={{ color: '#FFFFFF' }}>
+                <i className="fas fa-pencil-alt"></i>
+              </Link>
+            </Text>
+          </Box>
+        </Box>
+      )
+  }
+
   render() {
     const cardData = this.props.cardData;
     const colors = this.getPaymentColor(cardData.PaymentType);
-    const contentClasses = `content-box-title`;
-    // const contentClasses = `content-box-title ${this.state.open ? 'content-box__up' : 'content-box__down'}`;
     const getAnimationDelay = () => {
       return `${this.props.index * 0.1}s`
     }
@@ -103,7 +146,14 @@ class EntryCard extends Component {
         direction='row'
         margin={{ vertical: 'small', horizontal: 'medium' }}
         alignContent='stretch'
-        style={{ animationName: 'swipeIn', animationDuration: '0.5s', animationDelay: getAnimationDelay(), animationFillMode: 'forwards' }}
+        style={{
+          animationName: 'swipeIn',
+          animationDuration: '0.5s',
+          animationDelay: getAnimationDelay(),
+          animationFillMode: 'forwards',
+          borderRadius: '20px'
+        }}
+        elevation='small'
         className='card-container'
         height={this.state.open ? 'small' : 'xsmall'}
         onClick={() => this.toggleCardState()}
@@ -113,8 +163,8 @@ class EntryCard extends Component {
           background='#333333'
           pad={{ horizontal: 'medium' }}
           justify='center'
-          elevation='small'
           className='date-box'
+          width='50px'
         >
           <Text size='small' weight='bold' className='date-box__month'>
             {Intl.DateTimeFormat('en-GB', {
@@ -133,14 +183,13 @@ class EntryCard extends Component {
         <Box
           background='#FFFFFF'
           pad='medium'
-          elevation='small'
           alignContent='stretch'
-          className='content-box'
-          justify='center'
+          className={this.state.open ? 'content-box unrounded' : 'content-box rounded' }
+          justify='start'
           fill
         >
           {/* Moving Content */}
-          <Box className={contentClasses}>
+          <Box className='content-box-title'>
             {/* Title Area */}
             <Box
               direction='row'
@@ -197,6 +246,7 @@ class EntryCard extends Component {
         </Box>
         {/* END Card Content Area */}
 
+        {this.showControls()}
       </Box>
     )
   }
