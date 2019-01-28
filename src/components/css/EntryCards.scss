@@ -3,13 +3,13 @@
     transform: translateY(0);
   }
   100% {
-    transform: translateY(-50px);
+    transform: translateY(-100px);
   }
 }
 
 @keyframes pushDown {
   0% {
-    transform: translateY(-50px);
+    transform: translateY(-100px);
   }
   100% {
     transform: translateY(0px);
@@ -36,6 +36,15 @@
   }
 }
 
+@keyframes controlsIn {
+  0% {
+    width: 0px;
+  }
+  100% {
+    width: 70px;
+  }
+}
+
 .date-box {
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
@@ -52,16 +61,24 @@
 }
 
 .content-box {
-  border-top-right-radius: 20px;
-  border-bottom-right-radius: 20px;
+  transition: all 0.2s cubic-bezier(0.755, 0.05, 0.855, 0.06);
+
+  &.rounded {
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
+  &.unrounded {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
 
   &-title {
     transition: all 0.2s ease-in-out;
   }
   &__up {
     animation-name: pushUp;
-    animation-duration: 0.2s;
-    animation-delay: 0.2s;
+    animation-duration: 0.3s;
+    animation-delay: 0.1s;
     animation-fill-mode: forwards;
   }
   &__down {
@@ -72,6 +89,33 @@
 
   &__amount {
     font-size: 30px
+  }
+}
+
+.controls{
+  transition: all 0.2s ease-in-out;
+
+  &.in {
+    width: 70px
+  }
+  &.out {
+    width: 0px;
+  }
+}
+.control {
+  transition: all 0.05s ease-in-out;
+
+  &.in {
+    opacity: 1;
+  }
+  &.out {
+    opacity: 0;
+  }
+
+  &-button {
+    -webkit-box-shadow: inset 3px 0px 9px -2px rgba(0,0,0,0.4);
+    -moz-box-shadow: inset 3px 0px 9px -2px rgba(0,0,0,0.4);
+    box-shadow: inset 3px 0px 9px -2px rgba(0,0,0,0.4);
   }
 }
 
