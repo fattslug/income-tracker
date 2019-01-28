@@ -1,0 +1,82 @@
+@keyframes pushUp {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50px);
+  }
+}
+
+@keyframes pushDown {
+  0% {
+    transform: translateY(-50px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes swipeIn {
+  0% {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0px);
+    opacity: 1;
+  }
+}
+
+.date-box {
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  box-shadow: 0px 2px 4px rgba(0,0,0,0.20);
+
+  &__month {
+    font-size: 16px;
+    line-height: 20px;
+  }
+  &__date {
+    font-size: 24px;
+    line-height: 34px;
+  }
+}
+
+.content-box {
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+
+  &-title {
+    transition: all 0.2s ease-in-out;
+  }
+  &__up {
+    animation-name: pushUp;
+    animation-duration: 0.2s;
+    animation-delay: 0.2s;
+    animation-fill-mode: forwards;
+  }
+  &__down {
+    animation-name: pushDown;
+    animation-duration: 0.2s;
+    animation-fill-mode: forwards;
+  }
+
+  &__amount {
+    font-size: 30px
+  }
+}
+
+.card-container {
+  opacity: 0;
+  transform: translateX(0);
+  transition: all 0.2s ease-in-out;
+}

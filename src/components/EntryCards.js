@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { Box, Text } from 'grommet'
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
-import './css/EntryTable.scss';
+import './css/EntryCards.scss';
 
 const amountFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -36,9 +37,18 @@ class EntryCards extends Component {
   render() {
     return (
       <Box className='entryCards' width='medium'>
-        {this.props.cardData.map((data, index) => {
-          return (<EntryCard key={index} cardData={data} />);
-        })}
+        <TransitionGroup>
+          {this.props.cardData.map((data, index) => {
+            return (
+              <CSSTransition 
+                key={index}
+                classNames="example"
+                timeout={{ enter: 2000, exit: 3000 }}
+              >
+                <EntryCard key={index} index={index} cardData={data} />
+              </CSSTransition>);
+          })}
+        </TransitionGroup>
       </Box>
     )
   }
@@ -66,15 +76,20 @@ class EntryCard extends Component {
     const cardData = this.props.cardData;
     const colors = this.getPaymentColor(cardData.PaymentType);
     const contentClasses = `content-box-title ${this.state.open ? 'content-box__up' : 'content-box__down'}`;
+    const getAnimationDelay = () => {
+      return `${this.props.index * 0.1}s`
+    }
+
     return (
       // Card Container
       <Box
         direction='row'
         margin={{ vertical: 'small', horizontal: 'medium' }}
         alignContent='stretch'
+        style={{ animationName: 'swipeIn', animationDuration: '0.5s', animationDelay: getAnimationDelay(), animationFillMode: 'forwards' }}
         className='card-container'
         height={this.state.open ? 'small' : 'xsmall'}
-        onClick={(event) => this.toggleCardState()}
+        onClick={() => this.toggleCardState()}
       >
         {/* Date Area */}
         <Box
