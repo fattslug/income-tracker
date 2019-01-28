@@ -3,6 +3,8 @@ import { Box, Button, Text } from 'grommet';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
+import '../components/css/EntryCards.scss';
+
 import EntryCards from '../components/EntryCards';
 
 const amountFormatter = new Intl.NumberFormat("en-US", {
@@ -11,12 +13,32 @@ const amountFormatter = new Intl.NumberFormat("en-US", {
   minimumFractionDigits: 2
 });
 
+class LoadingIcon extends Component {
+  render() {
+    console.log(this.props);
+    if (this.props.show) {
+      return(
+        <Box
+          height='medium'
+          align='center'
+          alignContent='center'
+          justify='center'
+        >
+          <Text size='large'>Loading...</Text>
+        </Box>
+      );
+    }
+    return null;
+  }
+}
+
 class ViewAllEntries extends Component {
   constructor(props) {
     super(props)
     this.state = {
       cardData: [],
-      totalAmount: 0
+      totalAmount: 0,
+      isLoading: true
     }
     this.getData();
   }
@@ -29,17 +51,23 @@ class ViewAllEntries extends Component {
       console.log(result.data.body.entries);
       this.setState({
         cardData: result.data.body.entries,
-        totalAmount: result.data.body.totalAmount
+        totalAmount: result.data.body.totalAmount,
+        isLoading: false
       });
     }).catch((err) => {
       console.log('Error:', err);
     });
   }
 
-  render() {
+  mainContent = (isLoading) => {
     const { cardData, totalAmount } = this.state;
+    if (isLoading) {
+      return null;
+    }
     return (
-      <Box fill={true}>
+      <Box
+        style={{ animationName: 'fadeIn', animationDuration: '2s', animationFillMode: 'forwards' }}
+      >
         <Box align="center" pad="large">
           <Box pad='medium'>
             <Text size='xlarge' weight='bold'>
@@ -56,6 +84,15 @@ class ViewAllEntries extends Component {
         <Box align="center" fill={true} width='xlarge' className='entryList-container'>
           <EntryCards cardData={cardData} />
         </Box>
+      </Box>
+    )
+  }
+
+  render() {
+    return (
+      <Box fill={true}>
+        <LoadingIcon show={this.state.isLoading} />
+        {this.mainContent(this.state.isLoading)}
       </Box>
     );
   }
