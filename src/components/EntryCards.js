@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Box, Text } from 'grommet'
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import './css/EntryCards.scss';
 
@@ -37,18 +36,9 @@ class EntryCards extends Component {
   render() {
     return (
       <Box className='entryCards' width='medium'>
-        <TransitionGroup>
-          {this.props.cardData.map((data, index) => {
-            return (
-              <CSSTransition 
-                key={index}
-                classNames="example"
-                timeout={{ enter: 2000, exit: 3000 }}
-              >
-                <EntryCard key={index} index={index} cardData={data} />
-              </CSSTransition>);
-          })}
-        </TransitionGroup>
+        {this.props.cardData.map((data, index) => {
+          return (<EntryCard key={index} index={index} cardData={data} />);
+        })}
       </Box>
     )
   }
@@ -72,10 +62,37 @@ class EntryCard extends Component {
     });
   }
 
+  showServices = (cardData) => {
+    if (this.state.open) {
+      return (
+        <Box
+          direction='row'
+          wrap={true}
+        >
+          {cardData.ServicesRendered.map((service) => {
+            return(
+              <Box
+                pad='medium'
+                round='medium'
+                margin='small'
+                border={{ side: 'all', color: '#444444', size: 'small' }}
+                style={{ opacity: 0, animationName: 'swipeIn', animationDuration: '0.5s', animationFillMode: 'forwards' }}
+              >
+                <Text size='small' color='#444444'>{service.name}</Text>
+              </Box>
+            )
+          })}
+        </Box>
+      )
+    }
+    return null;
+  }
+
   render() {
     const cardData = this.props.cardData;
     const colors = this.getPaymentColor(cardData.PaymentType);
-    const contentClasses = `content-box-title ${this.state.open ? 'content-box__up' : 'content-box__down'}`;
+    const contentClasses = `content-box-title`;
+    // const contentClasses = `content-box-title ${this.state.open ? 'content-box__up' : 'content-box__down'}`;
     const getAnimationDelay = () => {
       return `${this.props.index * 0.1}s`
     }
@@ -122,6 +139,7 @@ class EntryCard extends Component {
           justify='center'
           fill
         >
+          {/* Moving Content */}
           <Box className={contentClasses}>
             {/* Title Area */}
             <Box
@@ -166,10 +184,19 @@ class EntryCard extends Component {
               {cardData.ClientName}
             </Text>
             {/* END Client Name */}
+
           </Box>
+          {/* END Moving Content */}
+
+          {/* Services Area */}
+          <Box>
+            {this.showServices(cardData)}
+          </Box>
+          {/* END Services Area */}
+          
         </Box>
         {/* END Card Content Area */}
-        {/* {cardData.ServicesRendered.map((service) => { return service.name })}<br /> */}
+
       </Box>
     )
   }
