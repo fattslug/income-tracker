@@ -79,7 +79,7 @@ class EntryCard extends Component {
                 round='medium'
                 margin='xsmall'
                 border={{ side: 'all', color: '#444444', size: 'small' }}
-                style={{ opacity: 0, animationName: 'swipeIn', animationDuration: '0.3s', animationFillMode: 'forwards' }}
+                style={{ opacity: 0, animationName: 'swipeIn', animationDelay: '0.1s', animationDuration: '0.3s', animationFillMode: 'forwards' }}
               >
                 <Text size='xsmall' color='#444444'>{service.name}</Text>
               </Box>
