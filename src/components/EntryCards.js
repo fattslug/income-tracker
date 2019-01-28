@@ -71,9 +71,10 @@ class EntryCard extends Component {
           wrap={true}
           margin={{ top: 'medium' }}
         >
-          {cardData.ServicesRendered.map((service) => {
+          {cardData.ServicesRendered.map((service, index) => {
             return(
               <Box
+                key={index}
                 pad='small'
                 round='medium'
                 margin='small'
@@ -108,7 +109,7 @@ class EntryCard extends Component {
               className={this.state.open ? 'control in' : 'control out' }
             >
               <Link to='/' style={{ color: '#FFFFFF' }}>
-                <i class="fas fa-trash"></i>
+                <i className="fas fa-trash"></i>
               </Link>
             </Text>
           </Box>
@@ -124,7 +125,7 @@ class EntryCard extends Component {
               className={this.state.open ? 'control in' : 'control out' }
             >
               <Link to='/' style={{ color: '#FFFFFF' }}>
-                <i class="fas fa-pencil-alt"></i>
+                <i className="fas fa-pencil-alt"></i>
               </Link>
             </Text>
           </Box>
