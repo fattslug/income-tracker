@@ -77,11 +77,11 @@ class EntryCard extends Component {
                 key={index}
                 pad='small'
                 round='medium'
-                margin='small'
+                margin='xsmall'
                 border={{ side: 'all', color: '#444444', size: 'small' }}
                 style={{ opacity: 0, animationName: 'swipeIn', animationDuration: '0.3s', animationFillMode: 'forwards' }}
               >
-                <Text size='small' color='#444444'>{service.name}</Text>
+                <Text size='xsmall' color='#444444'>{service.name}</Text>
               </Box>
             )
           })}
@@ -184,8 +184,8 @@ class EntryCard extends Component {
           background='#FFFFFF'
           pad='medium'
           alignContent='stretch'
+          justify='between'
           className={this.state.open ? 'content-box unrounded' : 'content-box rounded' }
-          justify='start'
           fill
         >
           {/* Moving Content */}
@@ -197,15 +197,22 @@ class EntryCard extends Component {
               alignContent='start'
               align='start'
             >
-              {/* Amount Paid */}
-              <Text
-                size='large'
-                weight='bold'
-                className='content-box__amount'
-              >
-                {amountFormatter.format(cardData.AmountPaid || 0)}
-              </Text>
-              {/* END Amount Paid */}
+              <Box>
+                {/* Amount Paid */}
+                <Text
+                  size='large'
+                  weight='bold'
+                  className='content-box__amount'
+                >
+                  {amountFormatter.format(cardData.AmountPaid || 0)}
+                </Text>
+                {/* END Amount Paid */}
+                {/* Client Name */}
+                <Text size='small'>
+                  {cardData.ClientName}
+                </Text>
+                {/* END Client Name */}
+              </Box>
               
               {/* Payment Type */}
               <Box
@@ -227,12 +234,6 @@ class EntryCard extends Component {
 
             </Box>
             {/* END Title Area */}
-
-            {/* Client Name */}
-            <Text size='small'>
-              {cardData.ClientName}
-            </Text>
-            {/* END Client Name */}
 
           </Box>
           {/* END Moving Content */}
