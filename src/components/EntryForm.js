@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Box, Button, FormField, MaskedInput, Select, Text, TextInput } from 'grommet';
+import { Accordion, AccordionPanel, Box, Button, Calendar, FormField, MaskedInput, Select, Text, TextInput } from 'grommet';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 
@@ -21,15 +21,16 @@ function Error(props) {
 }
 
 class EntryForm extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       values: {
+        DateAdded: new Date(),
         ClientName: '',
         PaymentType: '',
         ServicesRendered: [],
         AmountPaidString: '',
-        AmountPaid: 0
+        AmountPaid: 0,
       },
       options: {
         serviceOptions: [{
@@ -65,6 +66,12 @@ class EntryForm extends Component {
     }
   }
 
+  componentDidUpdate() {
+    if (this.props.mode === 'edit') {
+      this.assignFormValues();
+    }
+  }
+
   parseCurrency = (value) => {
     return parseFloat(value.substr(1, value.length)) || 0;
   }
@@ -72,7 +79,7 @@ class EntryForm extends Component {
   handleChange = (fieldName, newValue) => {
     let currentValues = this.state.values;
     let currentErrors = this.state.errors;
-    
+
     currentValues[fieldName] = newValue;
     currentErrors[fieldName] = this.validateField(fieldName);
 
@@ -117,30 +124,86 @@ class EntryForm extends Component {
 
     this.validateForm().then((hasErrors) => {
       if (!hasErrors) {
-        // Submit data
-        axios.post(process.env.REACT_APP_SERVICE_URL + '/entries/',
-          { entry: this.state.values }, {
+        if (this.props.mode === 'edit') {
+
+          // Update data
+          axios.put(`${process.env.REACT_APP_SERVICE_URL}/entries/${this.props.entryData._id}`, {
+            entry: this.state.values
+          }, {
             headers: { 'Authorization': 'bearer ' + localStorage.jwt }
           }).then((result) => {
-          this.setState({ errors: { Server: false } });
-          this.props.history.push('/');
-        }).catch((err) => {
-          this.setState({ errors: { Server: true } });
-        });
+            this.setState({ errors: { Server: false } });
+            this.props.history.push('/');
+          }).catch((err) => {
+            this.setState({ errors: { Server: true } });
+          });
+
+        } else if (this.props.mode === 'new') {
+
+          // Submit data
+          axios.post(process.env.REACT_APP_SERVICE_URL + '/entries/', {
+            entry: this.state.values
+          }, {
+            headers: { 'Authorization': 'bearer ' + localStorage.jwt }
+          }).then((result) => {
+            this.setState({ errors: { Server: false } });
+            this.props.history.push('/');
+          }).catch((err) => {
+            this.setState({ errors: { Server: true } });
+          });
+
+        }
       }
     });
   }
 
+  assignFormValues = () => {
+    if (!this.state.values.ClientName && this.props.entryData.ClientName) {
+      const { DateAdded, ClientName, PaymentType, ServicesRendered, AmountPaid } = this.props.entryData;
+      this.setState({
+        values: {
+          DateAdded: DateAdded,
+          ClientName: ClientName,
+          PaymentType: PaymentType,
+          ServicesRendered: ServicesRendered,
+          AmountPaidString: '$' + AmountPaid.toString()
+        }
+      });
+    }
+  }
+
   render() {
-    const { ClientName, PaymentType, ServicesRendered, AmountPaidString } = this.state.values;
+    const { DateAdded, ClientName, PaymentType, ServicesRendered, AmountPaidString } = this.state.values;
     const { serviceOptions, paymentOptions } = this.state.options;
+    const dateShortString = `${new Date(DateAdded).getFullYear()}-${new Date(DateAdded).getMonth()+1}-${new Date(DateAdded).getDate()}`;
+    const dateFullString = Intl.DateTimeFormat('en-US', {
+      month: 'short',
+      day: '2-digit',
+      year: 'numeric'
+    }).format(new Date(DateAdded));
     const errors = this.state.errors;
+    
     return (
       <form onSubmit={this.handleSubmit}>
         <Box fill align="center" justify="start" pad="large">
           <Box width="medium">
             <Box pad={{bottom: 'medium', horizontal: 'medium'}}>
               <Text size="xlarge">Add an entry</Text>
+            </Box>
+            <Box margin={{ bottom: 'large' }}>
+              <Accordion animate={true} multiple={false}>
+                <AccordionPanel label={`Date: ${dateFullString}`}>
+                  <Box>
+                    <Calendar
+                      id="dateAdded"
+                      date={dateShortString}
+                      onSelect={(e) => this.handleChange('DateAdded', e)}
+                      size="medium"
+                      style={{ marginLeft: '-10px' }}
+                    />
+                  </Box>
+                </AccordionPanel>
+              </Accordion>
             </Box>
             <Box pad="medium">
               <FormField label="Client Name" htmlFor="clientName">

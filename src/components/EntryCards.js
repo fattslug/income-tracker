@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
-import { Box, Text } from 'grommet'
+import { Box, Text, ResponsiveContext } from 'grommet'
 
 import './css/EntryCards.scss';
 
@@ -36,11 +36,15 @@ const paymentColors = {
 class EntryCards extends Component {
   render() {
     return (
-      <Box className='entryCards' width='medium'>
-        {this.props.cardData.map((data, index) => {
-          return (<EntryCard key={index} index={index} cardData={data} />);
-        })}
-      </Box>
+      <ResponsiveContext.Consumer>
+        {(size) => (
+          <Box className='entryCards' width={size === 'large' ? 'large' : 'medium'}>
+            {this.props.cardData.map((data, index) => {
+              return (<EntryCard key={index} index={index} cardData={data} />);
+            })}
+          </Box>
+        )}
+      </ResponsiveContext.Consumer>
     )
   }
 }
@@ -124,7 +128,7 @@ class EntryCard extends Component {
             <Text
               className={this.state.open ? 'control in' : 'control out' }
             >
-              <Link to='/' style={{ color: '#FFFFFF' }}>
+              <Link to={'/edit/'+this.props.cardData._id} style={{ color: '#FFFFFF' }}>
                 <i className="fas fa-pencil-alt"></i>
               </Link>
             </Text>
@@ -134,8 +138,7 @@ class EntryCard extends Component {
   }
 
   render() {
-    const cardData = this.props.cardData;
-    const colors = this.getPaymentColor(cardData.PaymentType);
+    const colors = this.getPaymentColor(this.props.cardData.PaymentType);
     const getAnimationDelay = () => {
       return `${this.props.index * 0.1}s`
     }
@@ -164,17 +167,17 @@ class EntryCard extends Component {
           pad={{ horizontal: 'medium' }}
           justify='center'
           className='date-box'
-          width='50px'
+          width='auto'
         >
           <Text size='small' weight='bold' className='date-box__month'>
-            {Intl.DateTimeFormat('en-GB', {
+            {Intl.DateTimeFormat('en-US', {
               month: 'short'
-            }).format(new Date(cardData.DateAdded))}
+            }).format(new Date(this.props.cardData.DateAdded))}
           </Text>
           <Text size='xlarge' weight='bold' className='date-box__date'>
-            {Intl.DateTimeFormat('en-GB', {
+            {Intl.DateTimeFormat('en-US', {
               day: '2-digit'
-            }).format(new Date(cardData.DateAdded))}
+            }).format(new Date(this.props.cardData.DateAdded))}
           </Text>
         </Box>
         {/* END Date Area */}
@@ -204,12 +207,12 @@ class EntryCard extends Component {
                   weight='bold'
                   className='content-box__amount'
                 >
-                  {amountFormatter.format(cardData.AmountPaid || 0)}
+                  {amountFormatter.format(this.props.cardData.AmountPaid || 0)}
                 </Text>
                 {/* END Amount Paid */}
                 {/* Client Name */}
                 <Text size='small'>
-                  {cardData.ClientName}
+                  {this.props.cardData.ClientName}
                 </Text>
                 {/* END Client Name */}
               </Box>
@@ -227,7 +230,7 @@ class EntryCard extends Component {
                   size='xsmall'
                   color={colors.text}
                 >
-                  {cardData.PaymentType}
+                  {this.props.cardData.PaymentType}
                 </Text>
               </Box>
               {/* END Payment Type */}
@@ -240,7 +243,7 @@ class EntryCard extends Component {
 
           {/* Services Area */}
           <Box>
-            {this.showServices(cardData)}
+            {this.showServices(this.props.cardData)}
           </Box>
           {/* END Services Area */}
           
