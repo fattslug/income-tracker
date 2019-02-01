@@ -190,16 +190,16 @@ class EntryForm extends Component {
             <Box pad={{bottom: 'medium', horizontal: 'medium'}}>
               <Text size="xlarge">Add an entry</Text>
             </Box>
-            <Box margin={{ bottom: 'large' }}>
+            <Box>
               <Accordion animate={true} multiple={false}>
                 <AccordionPanel label={`Date: ${dateFullString}`}>
-                  <Box>
+                  <Box style={{ overflow: 'hidden' }}>
                     <Calendar
                       id="dateAdded"
                       date={dateShortString}
                       onSelect={(e) => this.handleChange('DateAdded', e)}
                       size="medium"
-                      style={{ marginLeft: '-10px' }}
+                      style={{ marginLeft: '-7px' }}
                     />
                   </Box>
                 </AccordionPanel>
