@@ -12,8 +12,8 @@ class LoginButton extends Component {
       >
         <Anchor href={process.env.REACT_APP_SERVICE_URL + '/auth/google'}>
           <img
-            width='60%'
-            src='/assets/images/btn_google_signin_light_normal_web@2x.png'
+            width='250px'
+            src='/assets/images/google-login.svg'
             alt='Login with Google'
           />
         </Anchor>
