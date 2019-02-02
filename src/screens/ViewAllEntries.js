@@ -15,7 +15,6 @@ const amountFormatter = new Intl.NumberFormat("en-US", {
 
 class LoadingIcon extends Component {
   render() {
-    console.log(this.props);
     if (this.props.show) {
       return(
         <Box
@@ -47,8 +46,6 @@ class ViewAllEntries extends Component {
     axios.get(process.env.REACT_APP_SERVICE_URL + '/entries/', {
       headers: { 'Authorization': 'bearer ' + localStorage.jwt }
     }).then((result) => {
-      console.log('Setting state...');
-      console.log(result.data.body.entries);
       this.setState({
         cardData: result.data.body.entries,
         totalAmount: result.data.body.totalAmount,
