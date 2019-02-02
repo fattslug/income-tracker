@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 
 import EntryForm from '../components/EntryForm';
 
-class ViewAllEntries extends Component {
+class AddEntry extends Component {
   render() {
     return (
-      <EntryForm />
+      <EntryForm mode='new' />
     );
   }
 }
 
-export default ViewAllEntries;
+export default AddEntry;

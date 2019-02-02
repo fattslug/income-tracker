@@ -1,0 +1,126 @@
+@keyframes pushUp {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-100px);
+  }
+}
+
+@keyframes pushDown {
+  0% {
+    transform: translateY(-100px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes swipeIn {
+  0% {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0px);
+    opacity: 1;
+  }
+}
+
+@keyframes controlsIn {
+  0% {
+    width: 0px;
+  }
+  100% {
+    width: 70px;
+  }
+}
+
+.date-box {
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  box-shadow: 0px 2px 4px rgba(0,0,0,0.20);
+
+  &__month {
+    font-size: 16px;
+    line-height: 20px;
+  }
+  &__date {
+    font-size: 24px;
+    line-height: 34px;
+  }
+}
+
+.content-box {
+  transition: all 0.2s ease-out;
+
+  &.rounded {
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
+  &.unrounded {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+
+  &-title {
+    transition: all 0.2s ease-in-out;
+  }
+  &__up {
+    animation-name: pushUp;
+    animation-duration: 0.3s;
+    animation-delay: 0.2s;
+    animation-fill-mode: forwards;
+  }
+  &__down {
+    animation-name: pushDown;
+    animation-duration: 0.2s;
+    animation-fill-mode: forwards;
+  }
+
+  &__amount {
+    font-size: 30px
+  }
+}
+
+.controls{
+  transition: all 0.2s ease-out;
+
+  &.in {
+    width: 70px
+  }
+  &.out {
+    width: 0px;
+  }
+}
+.control {
+  transition: all 0.05s ease-in-out;
+
+  &.in {
+    opacity: 1;
+  }
+  &.out {
+    opacity: 0;
+  }
+
+  &-button {
+    -webkit-box-shadow: inset 3px 0px 9px -2px rgba(0,0,0,0.4);
+    -moz-box-shadow: inset 3px 0px 9px -2px rgba(0,0,0,0.4);
+    box-shadow: inset 3px 0px 9px -2px rgba(0,0,0,0.4);
+  }
+}
+
+.card-container {
+  opacity: 0;
+  transform: translateX(0);
+  transition: all 0.2s ease-out;
+}
