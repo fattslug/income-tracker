@@ -5,7 +5,7 @@ import EntryForm from '../components/EntryForm';
 class AddEntry extends Component {
   render() {
     return (
-      <EntryForm />
+      <EntryForm mode='new' />
     );
   }
 }
