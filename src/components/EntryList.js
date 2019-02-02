@@ -34,7 +34,7 @@ class EntryList extends Component {
       <ResponsiveContext.Consumer>
         {(size) => (
           <Box>
-            <Box className='entryCards' width={size === 'large' ? 'large' : 'medium'}>
+            <Box className='entryCards' width={size === 'small' ? 'medium' : 'large'}>
               {this.props.cardData.map((data, index) => {
                 return (<EntryCard key={index} index={index} cardData={data} selected={this.selectEntry} showDeleteModal={this.showDeleteModal} />);
               })}
