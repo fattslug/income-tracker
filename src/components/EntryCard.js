@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
-import { Box, Button, Heading, Layer, Text, ResponsiveContext } from 'grommet'
-
-import './css/EntryCards.scss';
+import { Box, Text } from 'grommet'
 
 const amountFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -30,93 +28,6 @@ const paymentColors = {
   'Google Pay': {
     bgColor: '#b54d9d',
     text: '#FFFFFF'
-  }
-}
-
-class DeleteModal extends Component {
-  onClose = () => this.props.showDeleteModal(false);
-
-  render() {
-    return(
-      <Box>
-        {this.props.isOpen && (
-          <Layer
-            position="center"
-            modal
-            onClickOutside={this.onClose}
-            onEsc={this.onClose}
-            responsive={false}
-          >
-            <Box pad="medium" gap="small" width="medium">
-              <Heading level={3} margin="none">
-                Confirm
-              </Heading>
-              <Text>Are you sure you want to delete this entry?</Text>
-              <Box
-                as="footer"
-                gap="small"
-                direction="row"
-                align="center"
-                justify="end"
-                pad={{ top: "medium", bottom: "small" }}
-              >
-                <Button
-                  label={
-                    <Text color="white">
-                      <strong>Delete</strong>
-                    </Text>
-                  }
-                  onClick={this.onClose}
-                  primary
-                  color="status-critical"
-                />
-              </Box>
-            </Box>
-          </Layer>
-        )}
-      </Box>
-    )
-  }
-}
-
-class EntryCards extends Component {
-  constructor() {
-    super();
-    this.state = {
-      isDeleteModalShowing: false,
-      selectedEntry: {}
-    };
-  }
-
-  selectEntry = (entry) => {
-    const currentState = this.state;
-    currentState.selectedEntry = entry;
-    this.setState(currentState);
-  }
-  
-  showDeleteModal = (show) => {
-    const currentState = this.state;
-    currentState.isDeleteModalShowing = show;
-    this.setState(currentState);
-  }
-
-  render() {
-    const { isDeleteModalShowing, selectedEntry } = this.state;
-    return (
-      <ResponsiveContext.Consumer>
-        {(size) => (
-          <Box>
-            <Button label="Open" onClick={() => this.setState({ open: true })}></Button>
-            <Box className='entryCards' width={size === 'large' ? 'large' : 'medium'}>
-              {this.props.cardData.map((data, index) => {
-                return (<EntryCard key={index} index={index} cardData={data} selected={this.selectEntry} showDeleteModal={this.showDeleteModal} />);
-              })}
-            </Box>
-            <DeleteModal isOpen={isDeleteModalShowing} selectedEntry={selectedEntry} showDeleteModal={this.showDeleteModal} />
-          </Box>
-        )}
-      </ResponsiveContext.Consumer>
-    )
   }
 }
 
@@ -328,4 +239,4 @@ class EntryCard extends Component {
   }
 }
 
-export default EntryCards;
+export default EntryCard;

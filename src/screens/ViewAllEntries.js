@@ -3,9 +3,9 @@ import { Box, Button, Text } from 'grommet';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-import '../components/css/EntryCards.scss';
+import '../components/css/EntryList.scss';
 
-import EntryCards from '../components/EntryCards';
+import EntryList from '../components/EntryList';
 
 const amountFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -82,7 +82,7 @@ class ViewAllEntries extends Component {
           </Link>
         </Box>
         <Box align="center" fill={true} width='xlarge' className='entryList-container'>
-          <EntryCards cardData={cardData} />
+          <EntryList cardData={cardData} refreshData={this.getData} />
         </Box>
       </Box>
     )
