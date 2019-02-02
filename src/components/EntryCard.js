@@ -86,24 +86,8 @@ class EntryCard extends Component {
         >
           <Box
             height='50%'
-            background='#ce482b'
-            style={{ borderTopRightRadius: '20px' }}
-            className='control-button'
-            align='center'
-            justify='center'
-          >
-            <Text
-              className={this.state.open ? 'control in' : 'control out' }
-            >
-              <Box onClick={() => this.props.showDeleteModal(true)} style={{ color: '#FFFFFF' }}>
-                <i className="fas fa-trash"></i>
-              </Box>
-            </Text>
-          </Box>
-          <Box
-            height='50%'
             background='#3c6db5'
-            style={{ borderBottomRightRadius: '20px' }}
+            style={{ borderTopRightRadius: '20px' }}
             className='control-button'
             align='center'
             justify='center'
@@ -114,6 +98,22 @@ class EntryCard extends Component {
               <Link to={'/edit/'+this.props.cardData._id} style={{ color: '#FFFFFF' }}>
                 <i className="fas fa-pencil-alt"></i>
               </Link>
+            </Text>
+          </Box>
+          <Box
+            height='50%'
+            background='#ce482b'
+            style={{ borderBottomRightRadius: '20px' }}
+            className='control-button'
+            align='center'
+            justify='center'
+          >
+            <Text
+              className={this.state.open ? 'control in' : 'control out' }
+            >
+              <Box onClick={() => this.props.showDeleteModal(true)} style={{ color: '#FFFFFF' }}>
+                <i className="fas fa-trash"></i>
+              </Box>
             </Text>
           </Box>
         </Box>
