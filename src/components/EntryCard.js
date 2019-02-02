@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
-import { Box, Text, ResponsiveContext } from 'grommet'
-
-import './css/EntryCards.scss';
+import { Box, Text } from 'grommet'
 
 const amountFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -33,22 +31,6 @@ const paymentColors = {
   }
 }
 
-class EntryCards extends Component {
-  render() {
-    return (
-      <ResponsiveContext.Consumer>
-        {(size) => (
-          <Box className='entryCards' width={size === 'large' ? 'large' : 'medium'}>
-            {this.props.cardData.map((data, index) => {
-              return (<EntryCard key={index} index={index} cardData={data} />);
-            })}
-          </Box>
-        )}
-      </ResponsiveContext.Consumer>
-    )
-  }
-}
-
 class EntryCard extends Component {
   constructor(props) {
     super(props);
@@ -61,10 +43,11 @@ class EntryCard extends Component {
     return paymentColors[paymentType];
   }
 
-  toggleCardState = () => {
+  selectCard = () => {
     this.setState({
       open: !this.state.open 
     });
+    this.props.selected(this.props.cardData);
   }
 
   showServices = (cardData) => {
@@ -112,9 +95,9 @@ class EntryCard extends Component {
             <Text
               className={this.state.open ? 'control in' : 'control out' }
             >
-              <Link to='/' style={{ color: '#FFFFFF' }}>
+              <Box onClick={() => this.props.showDeleteModal(true)} style={{ color: '#FFFFFF' }}>
                 <i className="fas fa-trash"></i>
-              </Link>
+              </Box>
             </Text>
           </Box>
           <Box
@@ -159,7 +142,7 @@ class EntryCard extends Component {
         elevation='small'
         className='card-container'
         height={this.state.open ? 'small' : 'xsmall'}
-        onClick={() => this.toggleCardState()}
+        onClick={() => this.selectCard()}
       >
         {/* Date Area */}
         <Box
@@ -256,4 +239,4 @@ class EntryCard extends Component {
   }
 }
 
-export default EntryCards;
+export default EntryCard;

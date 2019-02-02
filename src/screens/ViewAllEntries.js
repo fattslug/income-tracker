@@ -3,9 +3,9 @@ import { Box, Button, Text } from 'grommet';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-import '../components/css/EntryCards.scss';
+import '../components/css/EntryList.scss';
 
-import EntryCards from '../components/EntryCards';
+import EntryList from '../components/EntryList';
 
 const amountFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -15,7 +15,6 @@ const amountFormatter = new Intl.NumberFormat("en-US", {
 
 class LoadingIcon extends Component {
   render() {
-    console.log(this.props);
     if (this.props.show) {
       return(
         <Box
@@ -47,8 +46,6 @@ class ViewAllEntries extends Component {
     axios.get(process.env.REACT_APP_SERVICE_URL + '/entries/', {
       headers: { 'Authorization': 'bearer ' + localStorage.jwt }
     }).then((result) => {
-      console.log('Setting state...');
-      console.log(result.data.body.entries);
       this.setState({
         cardData: result.data.body.entries,
         totalAmount: result.data.body.totalAmount,
@@ -82,7 +79,7 @@ class ViewAllEntries extends Component {
           </Link>
         </Box>
         <Box align="center" fill={true} width='xlarge' className='entryList-container'>
-          <EntryCards cardData={cardData} />
+          <EntryList cardData={cardData} refreshData={this.getData} />
         </Box>
       </Box>
     )
