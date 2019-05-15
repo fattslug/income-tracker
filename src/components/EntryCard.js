@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom';
-import { Box, Text } from 'grommet'
+import { Box, Text, ResponsiveContext } from 'grommet'
 
 const amountFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -185,13 +185,17 @@ class EntryCard extends Component {
             >
               <Box>
                 {/* Amount Paid */}
-                <Text
-                  size='large'
-                  weight='bold'
-                  className='content-box__amount'
-                >
-                  {amountFormatter.format(this.props.cardData.AmountPaid || 0)}
-                </Text>
+                <ResponsiveContext.Consumer>
+                  {(size) => (
+                    <Text
+                      size={ size === 'small' ? '24px' : '30px' }
+                      weight='bold'
+                      className='content-box__amount'
+                    >
+                      {amountFormatter.format(this.props.cardData.AmountPaid || 0)}
+                    </Text>
+                  )}
+                </ResponsiveContext.Consumer>
                 {/* END Amount Paid */}
                 {/* Client Name */}
                 <Text size='small'>
