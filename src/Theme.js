@@ -4,7 +4,7 @@ const Theme = {
       brand: '#000',
     },
     font: {
-      family: 'Roboto',
+      family: 'sans-serif',
       size: '18px',
       height: '20px',
     },
@@ -16,6 +16,14 @@ const Theme = {
       active: {
         textDecoration: 'none'
       }
+    },
+    size: {
+      medium: '320px'
+    }
+  },
+  calendar: {
+    medium: {
+      daySize: '45px'
     }
   },
   text: {

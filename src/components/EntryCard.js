@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { Box, Text } from 'grommet'
 
 const amountFormatter = new Intl.NumberFormat("en-US", {
@@ -9,7 +9,7 @@ const amountFormatter = new Intl.NumberFormat("en-US", {
 });
 
 const paymentColors = {
-  'Credit Card': {
+  'Credit': {
     bgColor: '#CE482B',
     text: '#FFFFFF'
   },
@@ -91,13 +91,12 @@ class EntryCard extends Component {
             className='control-button'
             align='center'
             justify='center'
+            onClick={() => this.props.history.push('/edit/'+this.props.cardData._id)}
           >
             <Text
               className={this.state.open ? 'control in' : 'control out' }
             >
-              <Link to={'/edit/'+this.props.cardData._id} style={{ color: '#FFFFFF' }}>
                 <i className="fas fa-pencil-alt"></i>
-              </Link>
             </Text>
           </Box>
           <Box
@@ -107,11 +106,12 @@ class EntryCard extends Component {
             className='control-button'
             align='center'
             justify='center'
+            onClick={() => this.props.showDeleteModal(true)}
           >
             <Text
               className={this.state.open ? 'control in' : 'control out' }
             >
-              <Box onClick={() => this.props.showDeleteModal(true)} style={{ color: '#FFFFFF' }}>
+              <Box style={{ color: '#FFFFFF' }}>
                 <i className="fas fa-trash"></i>
               </Box>
             </Text>
@@ -134,7 +134,7 @@ class EntryCard extends Component {
         alignContent='stretch'
         style={{
           animationName: 'swipeIn',
-          animationDuration: '0.5s',
+          animationDuration: '0.2s',
           animationDelay: getAnimationDelay(),
           animationFillMode: 'forwards',
           borderRadius: '20px'
@@ -239,4 +239,4 @@ class EntryCard extends Component {
   }
 }
 
-export default EntryCard;
+export default withRouter(EntryCard);

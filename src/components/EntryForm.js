@@ -60,7 +60,7 @@ class EntryForm extends Component {
         }, {
           name: 'Gloss/Toner'
         }],
-        paymentOptions: ['Cash', 'Credit Card', 'Venmo', 'Apple Pay']
+        paymentOptions: ['Cash', 'Credit', 'Venmo', 'Apple Pay']
       },
       errors: {}
     }
@@ -175,7 +175,7 @@ class EntryForm extends Component {
   render() {
     const { DateAdded, ClientName, PaymentType, ServicesRendered, AmountPaidString } = this.state.values;
     const { serviceOptions, paymentOptions } = this.state.options;
-    const dateShortString = `${new Date(DateAdded).getFullYear()}-${new Date(DateAdded).getMonth()+1}-${new Date(DateAdded).getDate()}`;
+    const selectedDate = new Date(DateAdded);
     const dateFullString = Intl.DateTimeFormat('en-US', {
       month: 'short',
       day: '2-digit',
@@ -196,10 +196,9 @@ class EntryForm extends Component {
                   <Box style={{ overflow: 'hidden' }}>
                     <Calendar
                       id="dateAdded"
-                      date={dateShortString}
+                      date={selectedDate.toString()}
                       onSelect={(e) => this.handleChange('DateAdded', e)}
                       size="medium"
-                      style={{ marginLeft: '-7px' }}
                     />
                   </Box>
                 </AccordionPanel>
