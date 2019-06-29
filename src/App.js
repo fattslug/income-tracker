@@ -30,7 +30,7 @@ class App extends Component {
   render() {
     return (
       <Grommet theme={Theme}>
-        <Router>
+        <Router basename="/income-tracker">
           <Box className='rootNode'>
             <AppBar>
               <Link to="/">
