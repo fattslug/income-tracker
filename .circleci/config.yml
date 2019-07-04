@@ -40,13 +40,9 @@ jobs:
           command: npm run build
 
       - run:
-          name: test
-          command: pwd; ls -al
+          name: Remove Old Build
+          command: ssh -o "StrictHostKeyChecking no" root@seanpowell.dev "cd /var/www/html; rm -rf income-tracker"
 
-      # - run:
-      #     name: Upload Build
-      #     command: scp -o "StrictHostKeyChecking no" /home/circleci/repo/dist/bundle.js root@seanpowell.dev:/var/www/api/income-tracker.js
-
-      # - run:
-      #     name: Starting Server
-      #     command: ssh -o "StrictHostKeyChecking no" root@seanpowell.dev "cd /var/www/api; pm2 delete income-tracker; pm2 start income-tracker.js"
+      - run:
+          name: Upload New Build
+          command: scp -o "StrictHostKeyChecking no" -r /home/circleci/repo/dist/build root@seanpowell.dev:/var/www/html/income-tracker
