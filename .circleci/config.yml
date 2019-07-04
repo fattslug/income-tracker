@@ -45,4 +45,4 @@ jobs:
 
       - run:
           name: Upload New Build
-          command: scp -o "StrictHostKeyChecking no" -r /home/circleci/repo/dist/build root@seanpowell.dev:/var/www/html/income-tracker
+          command: scp -o "StrictHostKeyChecking no" -r /home/circleci/repo/build root@seanpowell.dev:/var/www/html/income-tracker
