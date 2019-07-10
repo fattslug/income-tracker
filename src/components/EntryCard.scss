@@ -1,0 +1,110 @@
+.card-date {
+  display: flex;
+  width: 45px;
+  background-color: #333333;
+  padding: 0px 15px;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  color: white;
+
+  .month {
+    font-size: 16px;
+    line-height: 16px;
+    font-weight: normal;
+  }
+
+  .date {
+    font-size: 24px;
+    line-height: 30px;
+    font-weight: bold;
+  }
+}
+
+.card-content {
+  display: flex;
+  transition: all 0.2s ease-out;
+  background-color: #FFF;
+  padding: 15px;
+  width: 100%;
+  box-sizing: border-box;
+  flex-direction: column;
+  align-content: stretch;
+  justify-content: space-between;
+  transition: all 0.2s ease-in-out;
+
+  &-area {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: flex-start;
+    align-items: flex-start;
+  }
+
+  &__amount {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  &__client {
+    font-size: 14px;
+  }
+  &__payment {
+    padding: 5px 25px;
+    border-radius: 24px;
+    margin-left: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    &__text {
+      font-size: 12px;
+    }
+  }
+
+  .services {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 20px;
+
+    &-chip {
+      opacity: 0;
+      animation-name: swipeIn;
+      animation-delay: 0.1s;
+      animation-duration: 0.3s;
+      animation-fill-mode: forwards;
+      border: 1px solid #444444;
+      padding: 5px;
+      margin: 5px;
+      border-radius: 5px;
+
+      &__label {
+        font-size: 10px;
+        color: #444;
+        line-height: 16px;
+      }
+    }
+  }
+}
+
+.card-right {
+  width: 100%;
+}
+
+.controls {
+  display: flex;
+  flex-direction: row; 
+  transition: all 0.2s ease-out;
+  width: 100%;
+
+  &.in {
+    height: 45px;
+    opacity: 1;
+  }
+
+  &.out {
+    opacity: 0;
+    height: 0px;
+    overflow: hidden;
+  }
+}

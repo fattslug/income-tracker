@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { Box, Button, Text } from 'grommet';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-import '../components/css/EntryList.scss';
+import './ViewAllEntries.scss';
 
 import EntryList from '../components/EntryList';
 
@@ -17,14 +16,11 @@ class LoadingIcon extends Component {
   render() {
     if (this.props.show) {
       return(
-        <Box
-          height='medium'
-          align='center'
-          alignContent='center'
-          justify='center'
-        >
-          <Text size='large'>Loading...</Text>
-        </Box>
+        <div className='loading-area'>
+          <span className='loading-icon'>
+            Loading...
+          </span>
+        </div>
       );
     }
     return null;
@@ -62,35 +58,36 @@ class ViewAllEntries extends Component {
       return null;
     }
     return (
-      <Box
-        style={{ animationName: 'fadeIn', animationDuration: '2s', animationFillMode: 'forwards' }}
-      >
-        <Box align="center" pad="large">
-          <Box pad='medium'>
-            <Text size='xlarge' weight='bold'>
+      <div className='view-container'>
+        <div className='view-header'>
+          <div className='view-total'>
+            <div className='amount'>
               {amountFormatter.format(totalAmount || 0)}
-            </Text>
-            <Text size='medium' textAlign='center'>
+            </div>
+            <div className='label'>
               Year-to-date
-            </Text>
-          </Box>
+            </div>
+          </div>
           <Link to='/add'>
-            <Button label="Add Entry" onClick={() => {}} />
+            <button><i className="fas fa-plus-circle"></i>&nbsp;&nbsp;Add Entry</button>
           </Link>
-        </Box>
-        <Box align="center" fill={true} width='xlarge' className='entryList-container'>
+        </div>
+        <div className='entries-container'>
           <EntryList cardData={cardData} refreshData={this.getData} />
-        </Box>
-      </Box>
+        </div>
+      </div>
     )
   }
 
   render() {
     return (
-      <Box fill={true}>
+      <div
+        style={{
+          fill: true
+        }}>
         <LoadingIcon show={this.state.isLoading} />
         {this.mainContent(this.state.isLoading)}
-      </Box>
+      </div>
     );
   }
 }

@@ -1,29 +1,14 @@
 import React from 'react';
-import { Box, ResponsiveContext } from 'grommet';
+import { Link } from 'react-router-dom';
+
+import './AppBar.scss';
 
 const AppBar = (props) => (
-  <ResponsiveContext.Consumer>
-    {size => (
-      <Box
-        tag='header'
-        direction='row'
-        align='center'
-        alignContent='center'
-        justify='between'
-        background='brand'
-        pad={
-          {
-            left: size === 'small' ? 'large' : 'medium',
-            right: 'small',
-            vertical: size === 'small' ? 'medium' : 'small'
-          }
-        }
-        elevation='medium'
-        style={{ zIndex: '1' }}
-        {...props}
-      />
-    )}
-  </ResponsiveContext.Consumer>
+  <div className='appbar'>
+    <Link to="/">
+      <div className='appbar-title'>Income Tracker</div>
+    </Link>
+  </div>
 );
 
 export default AppBar;
