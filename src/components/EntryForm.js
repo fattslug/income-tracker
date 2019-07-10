@@ -205,27 +205,28 @@ class EntryForm extends Component {
               </Accordion>
             </Box>
             <Box pad="medium">
-              <FormField label="Client Name" htmlFor="clientName">
-                <TextInput
-                  id="clientName"
-                  placeholder="Client Name"
-                  value={ClientName}
-                  onChange={(e) => this.handleChange('ClientName', e.target.value)}
-                />
-              </FormField>
+              <label htmlFor="clientName">Client Name</label>
+              <input type='text'
+                id="clientName"
+                placeholder="Client Name"
+                value={ClientName}
+                onChange={(e) => this.handleChange('ClientName', e.target.value)}
+              />
               <Error show={errors.ClientName}>Please enter a client name.</Error>
             </Box>
             <Box pad="medium">
-              <FormField label="Payment Type" htmlFor="paymentType">
-                <Select
-                  id="paymentType"
-                  name="select"
-                  placeholder="Select"
-                  value={PaymentType}
-                  options={paymentOptions}
-                  onChange={({ option }) => this.handleChange('PaymentType', option)}
-                />
-              </FormField>
+              <label htmlFor="paymentType">Payment Type</label>
+              <select
+                id="paymentType"
+                name="select"
+                value={PaymentType}
+                placeholder="Select"
+                onChange={(e) => this.handleChange('PaymentType', e.target.value)}
+              >
+                {paymentOptions.map((option, index) => (
+                  <option key={index} value={option}>{option}</option>
+                ))}
+              </select>
               <Error show={errors.PaymentType}>Please select a payment type.</Error>
             </Box>
             <Box pad="medium">
@@ -243,7 +244,7 @@ class EntryForm extends Component {
                   onChange={({ value: nextValue }) => this.handleChange('ServicesRendered', nextValue)}
                 />
               </FormField>
-              <Error show={errors.ServicesRendered}>Please select services rendered for this client.</Error>
+              <Error show={errors.ServicesRendered}>Please select services rendered htmlFor this client.</Error>
             </Box>
             <Box pad="medium">
               <FormField label="Amount Paid" htmlFor="amountPaid">
