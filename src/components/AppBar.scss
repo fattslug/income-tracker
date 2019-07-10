@@ -1,0 +1,14 @@
+.appbar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+  justify-content: space-between;
+  background-color: #000;
+  padding: 12px 24px;
+
+  &-title {
+    color: white; 
+    font-size: 18px;
+  }
+}

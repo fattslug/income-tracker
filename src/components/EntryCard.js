@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom';
-import { Box, Text, ResponsiveContext } from 'grommet'
+
+import './EntryCard.scss'
 
 const amountFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -53,26 +54,18 @@ class EntryCard extends Component {
   showServices = (cardData) => {
     if (this.state.open) {
       return (
-        <Box
-          direction='row'
-          wrap={true}
-          margin={{ top: 'medium' }}
-        >
+        <div className='services'>
           {cardData.ServicesRendered.map((service, index) => {
             return(
-              <Box
+              <div
                 key={index}
-                pad='small'
-                round='medium'
-                margin='xsmall'
-                border={{ side: 'all', color: '#444444', size: 'small' }}
-                style={{ opacity: 0, animationName: 'swipeIn', animationDelay: '0.1s', animationDuration: '0.3s', animationFillMode: 'forwards' }}
+                className='services-chip'
               >
-                <Text size='xsmall' color='#444444'>{service.name}</Text>
-              </Box>
+                <div className='services-chip__label'>{service.name}</div>
+              </div>
             )
           })}
-        </Box>
+        </div>
       )
     }
     return null;
@@ -80,43 +73,46 @@ class EntryCard extends Component {
 
   showControls = () => {
       return(
-        <Box
-          height='100%'
-          className={this.state.open ? 'controls in rounded' : 'controls out' }
-        >
-          <Box
-            height='50%'
-            background='#3c6db5'
-            style={{ borderTopRightRadius: '20px' }}
+        <div className={this.state.open ? 'controls in' : 'controls out' }>
+          <div
+            style={{
+              width: '50%',
+              backgroundColor: '#3c6db5',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
             className='control-button'
-            align='center'
-            justify='center'
             onClick={() => this.props.history.push('/edit/'+this.props.cardData._id)}
           >
-            <Text
+            <div
               className={this.state.open ? 'control in' : 'control out' }
             >
+              <div style={{ color: '#FFFFFF' }}>
                 <i className="fas fa-pencil-alt"></i>
-            </Text>
-          </Box>
-          <Box
-            height='50%'
-            background='#ce482b'
-            style={{ borderBottomRightRadius: '20px' }}
+              </div>
+            </div>
+          </div>
+          <div
+            style={{
+              width: '50%',
+              backgroundColor: '#ce482b',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
             className='control-button'
-            align='center'
-            justify='center'
             onClick={() => this.props.showDeleteModal(true)}
           >
-            <Text
+            <div
               className={this.state.open ? 'control in' : 'control out' }
             >
-              <Box style={{ color: '#FFFFFF' }}>
+              <div style={{ color: '#FFFFFF' }}>
                 <i className="fas fa-trash"></i>
-              </Box>
-            </Text>
-          </Box>
-        </Box>
+              </div>
+            </div>
+          </div>
+        </div>
       )
   }
 
@@ -128,117 +124,87 @@ class EntryCard extends Component {
 
     return (
       // Card Container
-      <Box
-        direction='row'
-        margin={{ vertical: 'small', horizontal: 'medium' }}
-        alignContent='stretch'
+      <div
         style={{
-          animationName: 'swipeIn',
-          animationDuration: '0.2s',
           animationDelay: getAnimationDelay(),
-          animationFillMode: 'forwards',
-          borderRadius: '20px'
         }}
-        elevation='small'
         className='card-container'
-        height={this.state.open ? 'small' : 'xsmall'}
         onClick={() => this.selectCard()}
       >
         {/* Date Area */}
-        <Box
-          background='#333333'
-          pad={{ horizontal: 'medium' }}
-          justify='center'
-          className='date-box'
-          width='auto'
-        >
-          <Text size='small' weight='bold' className='date-box__month'>
+        <div className='card-date'>
+          <div className='month'>
             {Intl.DateTimeFormat('en-US', {
               month: 'short'
             }).format(new Date(this.props.cardData.DateAdded))}
-          </Text>
-          <Text size='xlarge' weight='bold' className='date-box__date'>
+          </div>
+          <div className='date'>
             {Intl.DateTimeFormat('en-US', {
               day: '2-digit'
             }).format(new Date(this.props.cardData.DateAdded))}
-          </Text>
-        </Box>
+          </div>
+        </div>
         {/* END Date Area */}
 
-        {/* Card Content Area */}
-        <Box
-          background='#FFFFFF'
-          pad='medium'
-          alignContent='stretch'
-          justify='between'
-          className={this.state.open ? 'content-box unrounded' : 'content-box rounded' }
-          fill
-        >
-          {/* Moving Content */}
-          <Box className='content-box-title'>
+        {/* Card Right-Side */}
+        <div className='card-right'>
+
+          {/* Card Content Area */}
+          <div className='card-content'>
             {/* Title Area */}
-            <Box
-              direction='row'
-              justify='between'
-              alignContent='start'
-              align='start'
-            >
-              <Box>
+            <div className='card-content-area'>
+              <div>
                 {/* Amount Paid */}
-                <ResponsiveContext.Consumer>
-                  {(size) => (
-                    <Text
-                      size={ size === 'small' ? '24px' : '30px' }
-                      weight='bold'
-                      className='content-box__amount'
-                    >
-                      {amountFormatter.format(this.props.cardData.AmountPaid || 0)}
-                    </Text>
-                  )}
-                </ResponsiveContext.Consumer>
+                <div className='card-content__amount'>
+                  {amountFormatter.format(this.props.cardData.AmountPaid || 0)}
+                </div>
                 {/* END Amount Paid */}
                 {/* Client Name */}
-                <Text size='small'>
+                <div className='card-content__client'>
                   {this.props.cardData.ClientName}
-                </Text>
+                </div>
                 {/* END Client Name */}
-              </Box>
+              </div>
               
               {/* Payment Type */}
-              <Box
-                pad={{ horizontal: 'medium', vertical: 'xsmall' }}
-                round='medium'
-                margin={{ left: 'small' }}
-                background={colors.bgColor}
-                align='center'
-                justify='center'
+              <div className='card-content__payment'
+                style={{
+                  backgroundColor: colors.bgColor,
+                }}
               >
-                <Text
-                  size='xsmall'
-                  color={colors.text}
+                <span
+                  className='card-content__payment__text'
+                  style={{
+                    color: colors.text
+                  }}
                 >
                   {this.props.cardData.PaymentType}
-                </Text>
-              </Box>
+                </span>
+              </div>
               {/* END Payment Type */}
 
-            </Box>
+            </div>
             {/* END Title Area */}
 
-          </Box>
-          {/* END Moving Content */}
+            {/* Services Area */}
+            <div>
+              {this.showServices(this.props.cardData)}
+            </div>
+            {/* END Services Area */}
 
-          {/* Services Area */}
-          <Box>
-            {this.showServices(this.props.cardData)}
-          </Box>
-          {/* END Services Area */}
-          
-        </Box>
-        {/* END Card Content Area */}
+          </div>
+          {/* END Card Content Area */}
 
-        {this.showControls()}
-      </Box>
+          {/* Card Controls */}
+          <div className='card-controls'>
+            {this.showControls()}
+          </div>
+          {/* END Card Controls */}
+
+        </div>
+        {/* END Card Right-Side */}
+
+      </div>
     )
   }
 }
