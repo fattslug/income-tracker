@@ -69,7 +69,7 @@ class ViewAllEntries extends Component {
             </div>
           </div>
           <Link to='/add'>
-            <button><i className="fas fa-plus-circle"></i>&nbsp;&nbsp;Add Entry</button>
+            <button className='add'><i className="fas fa-plus-circle"></i>&nbsp;&nbsp;Add Entry</button>
           </Link>
         </div>
         <div className='entries-container'>

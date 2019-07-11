@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import Modal from 'react-modal';
 
 import './MultiSelectModal.scss';
+import '../../utility/Modal.scss';
 
-import modalStyles from './modalStyles';
+import modalStyles from '../../utility/MultiSelectModalStyles';
 Modal.setAppElement('#root');
 
 class MultiSelectModal extends Component {

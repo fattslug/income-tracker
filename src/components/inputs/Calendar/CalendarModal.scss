@@ -1,0 +1,69 @@
+.calendar {
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.react-calendar {
+  width: 100%;
+
+  button {
+    border: none;
+    background-color: transparent;
+    transition: all 0.3s ease;
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__navigation {
+    margin: 20px 0;
+
+    &__arrow {
+      transform: scale(2);
+      margin: 0 10px;
+    }
+    &__label {
+      font-size: 20px;
+    }
+  }
+
+  &__month-view {
+    &__weekdays {
+      font-size: 16px;
+      font-weight: bold;
+
+      &__weekday {
+        text-align: center;
+
+        abbr {
+          text-decoration: none;
+        }
+      }
+    }
+    &__days {
+      margin: 10px 0;
+
+      &__day--neighboringMonth {
+        color: rgba(0, 0, 0, 0.3);
+      }
+    }
+  }
+
+  &__tile {
+    height: 45px;
+    font-size: 16px;
+    font-weight: 100;
+
+    &--now {
+      font-weight: bold;
+      border-radius: 45px;
+      border: 1px solid #000;
+      background-color: transparent;
+    }
+    &--active {
+      border-radius: 45px;
+      background-color: #51b84a !important;
+      color: white;
+    }
+  }
+}
