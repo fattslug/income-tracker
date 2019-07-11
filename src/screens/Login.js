@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import LoginButton from '../components/LoginButton';
+import LoginButton from '../components/fragments/LoginButton';
 
 
 class Login extends Component {

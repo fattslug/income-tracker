@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import DeleteModal from '../screens/DeleteModal';
+import DeleteModal from '../../screens/DeleteModal';
 import EntryCard from './EntryCard';
 
 import './EntryList.scss';

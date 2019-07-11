@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import {
   BrowserRouter as Router,
   Route
-} from "react-router-dom";
+} from 'react-router-dom';
 
 // Components
-import AppBar from './components/AppBar';
+import AppBar from './components/fragments/AppBar';
 
 // Screens
 import ViewAllEntries from './screens/ViewAllEntries';
@@ -27,7 +27,7 @@ class App extends Component {
   render() {
     return (
       <Router basename='/income-tracker'>
-        <div className='rootNode'>
+        <div className='rootNode' id='app'>
           <AppBar />
 
           <div className='appbody'>

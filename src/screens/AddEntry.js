@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import EntryForm from '../components/EntryForm';
+import EntryForm from '../components/fragments/EntryForm';
 
 class AddEntry extends Component {
   render() {

@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import './ViewAllEntries.scss';
 
-import EntryList from '../components/EntryList';
+import EntryList from '../components/fragments/EntryList';
 
 const amountFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
