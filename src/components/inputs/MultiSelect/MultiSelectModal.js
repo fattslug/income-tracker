@@ -30,6 +30,7 @@ class MultiSelectModal extends Component {
 
   onClose = (acceptValues) => {
     if (acceptValues) {
+      this.setState({ originalOptions: [...this.state.selectedOptions] })
       this.props.onClose(this.state.selectedOptions);
     } else {
       this.setState({ selectedOptions: [...this.state.originalOptions] })

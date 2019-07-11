@@ -13,22 +13,23 @@ class MultiSelect extends Component {
   }
 
   toggleModal = () => {
-    let setStyles = () => new Promise((resolve) => resolve());
-    if (this.state.isOpen) {
-      setStyles = () => new Promise((resolve) => {
+    return new Promise((resolve) => {
+      if (this.state.isOpen) {
         document.getElementsByClassName('ReactModal__Content')[0].style.opacity = '1';
         document.getElementsByClassName('ReactModal__Content')[0].style.animationName = 'swipeDown';
         setTimeout(() => { document.getElementsByClassName('ReactModal__Overlay')[0].style.animationName = 'fadeOut' }, 300);
-        setTimeout(() => { resolve() }, 500);
-      });
-    }
-
-    setStyles().then(() => this.setState({ isOpen: !this.state.isOpen }));
+        setTimeout(() => { this.setState({ isOpen: !this.state.isOpen }); resolve(); }, 500);
+      } else {
+        this.setState({ isOpen: !this.state.isOpen });
+        resolve();
+      }
+    });
   }
 
   updateValues = (values) => {
-    this.toggleModal();
-    this.props.onChange(values);
+    this.toggleModal().then(() => {
+      this.props.onChange(values);
+    });
   }
 
   render() {
