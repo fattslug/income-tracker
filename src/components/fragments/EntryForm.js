@@ -5,6 +5,7 @@ import axios from 'axios';
 import './EntryForm.scss';
 
 import MultiSelect from '../inputs/MultiSelect/MultiSelect';
+import Calendar from '../inputs/Calendar/Calendar';
 
 function Error(props) {
   if (props.show) {
@@ -189,6 +190,9 @@ class EntryForm extends Component {
             <h1>Add an entry</h1>
           </div>
           <div>
+            <Calendar
+              description='Select a date:'
+            />
             {/* <Accordion animate={true} multiple={false}>
               <AccordionPanel label={`Date: ${dateFullString}`}>
                 <Box style={{ overflow: 'hidden' }}>
@@ -262,7 +266,7 @@ class EntryForm extends Component {
           </div>
           <Error show={errors.Server}>Error submitting form. Please try again later.</Error>
           <div className='entryform-field'>
-            <button type='submit' onClick={(e) => { this.handleSubmit(e) }}>
+            <button className='add' type='submit' onClick={(e) => { this.handleSubmit(e) }}>
               Submit
             </button>
           </div>
