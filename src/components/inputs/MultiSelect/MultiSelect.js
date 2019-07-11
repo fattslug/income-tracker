@@ -13,20 +13,17 @@ class MultiSelect extends Component {
   }
 
   toggleModal = () => {
-    const newState = this.state;
-    newState.isOpen = !this.state.isOpen;
-
     let setStyles = () => new Promise((resolve) => resolve());
-    if (!this.state.isOpen) {
+    if (this.state.isOpen) {
       setStyles = () => new Promise((resolve) => {
         document.getElementsByClassName('ReactModal__Content')[0].style.opacity = '1';
         document.getElementsByClassName('ReactModal__Content')[0].style.animationName = 'swipeDown';
-        // setTimeout(() => { document.getElementsByClassName('ReactModal__Overlay')[0].style.animationName = 'fadeOut' }, 300);
+        setTimeout(() => { document.getElementsByClassName('ReactModal__Overlay')[0].style.animationName = 'fadeOut' }, 300);
         setTimeout(() => { resolve() }, 500);
       });
     }
 
-    setStyles().then(() => this.setState(newState));
+    setStyles().then(() => this.setState({ isOpen: !this.state.isOpen }));
   }
 
   updateValues = (values) => {
