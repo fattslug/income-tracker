@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-import EntryForm from '../components/EntryForm';
+import EntryForm from '../components/fragments/EntryForm';
 
 class EditEntry extends Component {
   constructor(props) {

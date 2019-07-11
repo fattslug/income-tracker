@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
-import { Accordion, AccordionPanel, Box, Button, Calendar, FormField, MaskedInput, Select, Text } from 'grommet';
+import { Accordion, AccordionPanel, Box, Button, Calendar, FormField, MaskedInput, Text } from 'grommet';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
+
+import './EntryForm.scss';
+
+import MultiSelect from '../inputs/MultiSelect/MultiSelect';
 
 function Error(props) {
   if (props.show) {
@@ -184,7 +188,7 @@ class EntryForm extends Component {
     const errors = this.state.errors;
     
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form onSubmit={this.handleSubmit} className='entryform'>
         <Box fill align="center" justify="start" pad="large">
           <Box width="medium">
             <Box pad={{bottom: 'medium', horizontal: 'medium'}}>
@@ -218,7 +222,6 @@ class EntryForm extends Component {
               <label htmlFor="paymentType">Payment Type</label>
               <select
                 id="paymentType"
-                name="select"
                 value={PaymentType}
                 placeholder="Select"
                 onChange={(e) => this.handleChange('PaymentType', e.target.value)}
@@ -230,7 +233,7 @@ class EntryForm extends Component {
               <Error show={errors.PaymentType}>Please select a payment type.</Error>
             </Box>
             <Box pad="medium">
-              <FormField label="Services" htmlFor="servicesRendered">
+              {/* <FormField label="Services" htmlFor="servicesRendered">
                 <Select
                   id="servicesRendered"
                   size="medium"
@@ -243,7 +246,15 @@ class EntryForm extends Component {
                   options={serviceOptions}
                   onChange={({ value: nextValue }) => this.handleChange('ServicesRendered', nextValue)}
                 />
-              </FormField>
+              </FormField> */}
+              <label htmlFor="services">Services</label>
+              <MultiSelect
+                id="services"
+                options={serviceOptions}
+                values={ServicesRendered}
+                onChange={(value) => this.handleChange('ServicesRendered', value)}
+                description="Select services rendered:"
+              />
               <Error show={errors.ServicesRendered}>Please select services rendered htmlFor this client.</Error>
             </Box>
             <Box pad="medium">
