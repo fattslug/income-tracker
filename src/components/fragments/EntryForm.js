@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Accordion, AccordionPanel, Box, Button, Calendar, FormField, MaskedInput, Text } from 'grommet';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 
@@ -10,14 +9,9 @@ import MultiSelect from '../inputs/MultiSelect/MultiSelect';
 function Error(props) {
   if (props.show) {
     return (
-      <Box
-        background='status-error'
-        color='light-1'
-        round='small'
-        pad='small'
-      >
+      <div className='error-message'>
         {props.children}
-      </Box>
+      </div>
     );
   } else {
     return null;
@@ -177,115 +171,102 @@ class EntryForm extends Component {
   }
 
   render() {
-    const { DateAdded, ClientName, PaymentType, ServicesRendered, AmountPaidString } = this.state.values;
+    // const { DateAdded, ClientName, PaymentType, ServicesRendered, AmountPaidString } = this.state.values;
+    const { ClientName, PaymentType, ServicesRendered } = this.state.values;
     const { serviceOptions, paymentOptions } = this.state.options;
-    const selectedDate = new Date(DateAdded);
-    const dateFullString = Intl.DateTimeFormat('en-US', {
-      month: 'short',
-      day: '2-digit',
-      year: 'numeric'
-    }).format(new Date(DateAdded));
+    // const selectedDate = new Date(DateAdded);
+    // const dateFullString = Intl.DateTimeFormat('en-US', {
+    //   month: 'short',
+    //   day: '2-digit',
+    //   year: 'numeric'
+    // }).format(new Date(DateAdded));
     const errors = this.state.errors;
     
     return (
       <form onSubmit={this.handleSubmit} className='entryform'>
-        <Box fill align="center" justify="start" pad="large">
-          <Box width="medium">
-            <Box pad={{bottom: 'medium', horizontal: 'medium'}}>
-              <Text size="xlarge">Add an entry</Text>
-            </Box>
-            <Box>
-              <Accordion animate={true} multiple={false}>
-                <AccordionPanel label={`Date: ${dateFullString}`}>
-                  <Box style={{ overflow: 'hidden' }}>
-                    <Calendar
-                      id="dateAdded"
-                      date={selectedDate.toString()}
-                      onSelect={(e) => this.handleChange('DateAdded', e)}
-                      size="medium"
-                    />
-                  </Box>
-                </AccordionPanel>
-              </Accordion>
-            </Box>
-            <Box pad="medium">
-              <label htmlFor="clientName">Client Name</label>
-              <input type='text'
-                id="clientName"
-                placeholder="Client Name"
-                value={ClientName}
-                onChange={(e) => this.handleChange('ClientName', e.target.value)}
+        <div className='entryform-body'>
+          <div className='entryform-heading'>
+            <h1>Add an entry</h1>
+          </div>
+          <div>
+            {/* <Accordion animate={true} multiple={false}>
+              <AccordionPanel label={`Date: ${dateFullString}`}>
+                <Box style={{ overflow: 'hidden' }}>
+                  <Calendar
+                    id="dateAdded"
+                    date={selectedDate.toString()}
+                    onSelect={(e) => this.handleChange('DateAdded', e)}
+                    size="medium"
+                  />
+                </Box>
+              </AccordionPanel>
+            </Accordion> */}
+          </div>
+          <div className='entryform-field'>
+            <label htmlFor='clientName'>Client Name</label>
+            <input type='text'
+              id='clientName'
+              placeholder='Client Name'
+              value={ClientName}
+              onChange={(e) => this.handleChange('ClientName', e.target.value)}
+            />
+            <Error show={errors.ClientName}>Please enter a client name.</Error>
+          </div>
+          <div className='entryform-field'>
+            <label htmlFor="paymentType">Payment Type</label>
+            <select
+              id='paymentType'
+              value={PaymentType}
+              placeholder='Select'
+              onChange={(e) => this.handleChange('PaymentType', e.target.value)}
+            >
+              {paymentOptions.map((option, index) => (
+                <option key={index} value={option}>{option}</option>
+              ))}
+            </select>
+            <Error show={errors.PaymentType}>Please select a payment type.</Error>
+          </div>
+          <div className='entryform-field'>
+            <label htmlFor="services">Services</label>
+            <MultiSelect
+              id="services"
+              options={serviceOptions}
+              values={ServicesRendered}
+              onChange={(value) => this.handleChange('ServicesRendered', value)}
+              description='Select services rendered:'
+            />
+            <Error show={errors.ServicesRendered}>Please select services rendered htmlFor this client.</Error>
+          </div>
+          <div className='entryform-field'>
+            {/* <FormField label="Amount Paid" htmlFor="amountPaid">
+              <MaskedInput
+                id="amountPaid"
+                mask={[
+                  { fixed: "$" },
+                  {
+                    regexp: /^[0-9]/,
+                    placeholder: "0"
+                  },
+                  { fixed: "." },
+                  {
+                    length: 2,
+                    regexp: /^[0-9]$/,
+                    placeholder: "00"
+                  }
+                ]}
+                value={AmountPaidString}
+                onChange={(e) => this.handleChange('AmountPaidString', e.target.value)}
               />
-              <Error show={errors.ClientName}>Please enter a client name.</Error>
-            </Box>
-            <Box pad="medium">
-              <label htmlFor="paymentType">Payment Type</label>
-              <select
-                id="paymentType"
-                value={PaymentType}
-                placeholder="Select"
-                onChange={(e) => this.handleChange('PaymentType', e.target.value)}
-              >
-                {paymentOptions.map((option, index) => (
-                  <option key={index} value={option}>{option}</option>
-                ))}
-              </select>
-              <Error show={errors.PaymentType}>Please select a payment type.</Error>
-            </Box>
-            <Box pad="medium">
-              {/* <FormField label="Services" htmlFor="servicesRendered">
-                <Select
-                  id="servicesRendered"
-                  size="medium"
-                  placeholder="Select"
-                  multiple
-                  closeOnChange={false}
-                  labelKey="name"
-                  valueKey="name"
-                  value={ServicesRendered}
-                  options={serviceOptions}
-                  onChange={({ value: nextValue }) => this.handleChange('ServicesRendered', nextValue)}
-                />
-              </FormField> */}
-              <label htmlFor="services">Services</label>
-              <MultiSelect
-                id="services"
-                options={serviceOptions}
-                values={ServicesRendered}
-                onChange={(value) => this.handleChange('ServicesRendered', value)}
-                description="Select services rendered:"
-              />
-              <Error show={errors.ServicesRendered}>Please select services rendered htmlFor this client.</Error>
-            </Box>
-            <Box pad="medium">
-              <FormField label="Amount Paid" htmlFor="amountPaid">
-                <MaskedInput
-                  id="amountPaid"
-                  mask={[
-                    { fixed: "$" },
-                    {
-                      regexp: /^[0-9]/,
-                      placeholder: "0"
-                    },
-                    { fixed: "." },
-                    {
-                      length: 2,
-                      regexp: /^[0-9]$/,
-                      placeholder: "00"
-                    }
-                  ]}
-                  value={AmountPaidString}
-                  onChange={(e) => this.handleChange('AmountPaidString', e.target.value)}
-                />
-              </FormField>
-              <Error show={errors.AmountPaidString}>Please enter the amount paid by this client.</Error>
-            </Box>
-            <Error show={errors.Server}>Error submitting form. Please try again later.</Error>
-            <Box pad="medium">
-              <Button label="Submit" type='submit' primary={true} onClick={(e) => { this.handleSubmit(e) }} />
-            </Box>
-          </Box>
-        </Box>
+            </FormField> */}
+            <Error show={errors.AmountPaidString}>Please enter the amount paid by this client.</Error>
+          </div>
+          <Error show={errors.Server}>Error submitting form. Please try again later.</Error>
+          <div className='entryform-field'>
+            <button type='submit' onClick={(e) => { this.handleSubmit(e) }}>
+              Submit
+            </button>
+          </div>
+        </div>
       </form>
     );
   }

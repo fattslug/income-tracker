@@ -1,3 +1,27 @@
 .entryform {
   width: 100%;
+
+  &-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 24px;
+  }
+
+  &-heading {
+    h1 {
+      margin: 0;
+    }
+  }
+
+  &-field {
+    padding: 15px;
+  }
+}
+
+.error-message {
+  background-color: #FF4040;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
 }
