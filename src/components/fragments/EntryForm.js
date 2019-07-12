@@ -27,7 +27,7 @@ class EntryForm extends Component {
       values: {
         DateAdded: new Date(),
         ClientName: '',
-        PaymentType: '',
+        PaymentType: 'Cash',
         ServicesRendered: [],
         AmountPaid: null,
       },
