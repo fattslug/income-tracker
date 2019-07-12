@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
+import NumberFormat from 'react-number-format';
 
 import './EntryForm.scss';
 
@@ -28,7 +29,6 @@ class EntryForm extends Component {
         ClientName: '',
         PaymentType: '',
         ServicesRendered: [],
-        AmountPaidString: '',
         AmountPaid: 0,
       },
       options: {
@@ -71,10 +71,6 @@ class EntryForm extends Component {
     }
   }
 
-  parseCurrency = (value) => {
-    return parseFloat(value.substr(1, value.length)) || 0;
-  }
-
   handleChange = (fieldName, newValue) => {
     let currentValues = this.state.values;
     let currentErrors = this.state.errors;
@@ -90,7 +86,7 @@ class EntryForm extends Component {
 
   validateField = (fieldName) => {
     if (fieldName === 'AmountPaidString') {
-      return (this.parseCurrency(this.state.values[fieldName]) <= 0);
+      return (this.state.values[fieldName] <= 0);
     } else if (fieldName === 'ClientName') {
       return (this.state.values[fieldName] === '');
     } else if (fieldName === 'ServicesRendered') {
@@ -116,10 +112,8 @@ class EntryForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     
-    // Parse Currency (Amount)
-    let currentState = this.state.values;
-    currentState.AmountPaid = this.parseCurrency(this.state.values.AmountPaidString);
-    this.setState(currentState);
+    // let currentState = this.state.values;
+    // this.setState(currentState);
 
     this.validateForm().then((hasErrors) => {
       if (!hasErrors) {
@@ -165,22 +159,16 @@ class EntryForm extends Component {
           ClientName: ClientName,
           PaymentType: PaymentType,
           ServicesRendered: ServicesRendered,
-          AmountPaidString: '$' + AmountPaid.toString()
+          AmountPaid: AmountPaid
         }
       });
     }
   }
 
   render() {
-    // const { DateAdded, ClientName, PaymentType, ServicesRendered, AmountPaidString } = this.state.values;
-    const { ClientName, PaymentType, ServicesRendered } = this.state.values;
+    const { DateAdded, ClientName, PaymentType, ServicesRendered, AmountPaid } = this.state.values;
     const { serviceOptions, paymentOptions } = this.state.options;
-    // const selectedDate = new Date(DateAdded);
-    // const dateFullString = Intl.DateTimeFormat('en-US', {
-    //   month: 'short',
-    //   day: '2-digit',
-    //   year: 'numeric'
-    // }).format(new Date(DateAdded));
+    const selectedDate = new Date(DateAdded);
     const errors = this.state.errors;
     
     return (
@@ -191,20 +179,10 @@ class EntryForm extends Component {
           </div>
           <div>
             <Calendar
+              value={selectedDate}
               description='Select a date:'
+              onChange={(value) => this.handleChange('DateAdded', value)}
             />
-            {/* <Accordion animate={true} multiple={false}>
-              <AccordionPanel label={`Date: ${dateFullString}`}>
-                <Box style={{ overflow: 'hidden' }}>
-                  <Calendar
-                    id="dateAdded"
-                    date={selectedDate.toString()}
-                    onSelect={(e) => this.handleChange('DateAdded', e)}
-                    size="medium"
-                  />
-                </Box>
-              </AccordionPanel>
-            </Accordion> */}
           </div>
           <div className='entryform-field'>
             <label htmlFor='clientName'>Client Name</label>
@@ -233,7 +211,7 @@ class EntryForm extends Component {
           <div className='entryform-field'>
             <label htmlFor="services">Services</label>
             <MultiSelect
-              id="services"
+              id='services'
               options={serviceOptions}
               values={ServicesRendered}
               onChange={(value) => this.handleChange('ServicesRendered', value)}
@@ -242,26 +220,17 @@ class EntryForm extends Component {
             <Error show={errors.ServicesRendered}>Please select services rendered htmlFor this client.</Error>
           </div>
           <div className='entryform-field'>
-            {/* <FormField label="Amount Paid" htmlFor="amountPaid">
-              <MaskedInput
-                id="amountPaid"
-                mask={[
-                  { fixed: "$" },
-                  {
-                    regexp: /^[0-9]/,
-                    placeholder: "0"
-                  },
-                  { fixed: "." },
-                  {
-                    length: 2,
-                    regexp: /^[0-9]$/,
-                    placeholder: "00"
-                  }
-                ]}
-                value={AmountPaidString}
-                onChange={(e) => this.handleChange('AmountPaidString', e.target.value)}
-              />
-            </FormField> */}
+            <label htmlFor='amountPaid'>Cost of service</label>
+            <NumberFormat
+              id='amountPaid'
+              value={AmountPaid}
+              thousandSeparator={true}
+              decimalSeparator='.'
+              fixedDecimalScale={true}
+              decimalScale={2}
+              prefix={'$'}
+              onValueChange={(values) => this.handleChange('AmountPaid', values.floatValue)}
+            />
             <Error show={errors.AmountPaidString}>Please enter the amount paid by this client.</Error>
           </div>
           <Error show={errors.Server}>Error submitting form. Please try again later.</Error>

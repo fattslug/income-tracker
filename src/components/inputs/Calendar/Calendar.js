@@ -41,7 +41,8 @@ class Calendar extends Component {
         onKeyPress={() => this.toggleModal()}
       >
         <div className='display'>
-          Selected Date{this.props.value}
+          Selected Date:
+          {this.props.value.toString()}
         </div>
         <CalendarModal
           key={this.props.value}
