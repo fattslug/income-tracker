@@ -4,7 +4,26 @@
   }
 }
 
-.display {
+.calendar-display {
+  display: flex;
+  cursor: pointer;
   width: 100%;
   font-size: 12px;
+  font-weight: 500;
+  border: 1px solid #bbb;
+  box-sizing: border-box;
+  background-color: white;
+  align-items: center;
+  justify-content: space-between;
+
+  &__icon {
+    background-color: #333;
+    color: white;
+    padding: 10px 15px;
+    font-size: 16px;
+  }
+  &__date {
+    margin-left: 25px;
+    font-size: 16px;
+  }
 }

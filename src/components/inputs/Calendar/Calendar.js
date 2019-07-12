@@ -3,6 +3,12 @@ import CalendarModal from './CalendarModal';
 
 import './Calendar.scss';
 
+const monthNames = [
+  "January", "February", "March",
+  "April", "May", "June", "July",
+  "August", "September", "October",
+  "November", "December"
+];
 
 class Calendar extends Component {
   constructor(props) {
@@ -40,9 +46,17 @@ class Calendar extends Component {
         onClick={() => this.toggleModal()}
         onKeyPress={() => this.toggleModal()}
       >
-        <div className='display'>
-          Selected Date:
-          {this.props.value.toString()}
+        <div className='calendar-display'>
+          <span className='calendar-display__date'>
+            {`
+              ${monthNames[this.props.value.getMonth()]} 
+              ${this.props.value.getDate()} 
+              ${this.props.value.getFullYear()}
+            `}
+          </span>
+          <span className='calendar-display__icon'>
+            <i className="far fa-calendar-alt"></i>
+          </span>
         </div>
         <CalendarModal
           key={this.props.value}

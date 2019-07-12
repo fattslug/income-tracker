@@ -9,6 +9,9 @@
   }
 
   &-heading {
+    padding: 0 15px;
+    margin: 0 20px;
+    
     h1 {
       margin: 0;
     }
@@ -16,6 +19,23 @@
 
   &-field {
     padding: 15px;
+    font-weight: 100;
+    font-size: 14px;
+    margin: 0 20px;
+
+    label {
+      line-height: 26px;
+    }
+  }
+
+  &-input {
+    width: 100%;
+    font-size: 16px;
+    font-weight: 500;
+    border: 1px solid #bbb;
+    box-sizing: border-box;
+    background-color: white;
+    padding: 10px 15px;
   }
 }
 
@@ -24,4 +44,17 @@
   color: white;
   padding: 5px 10px;
   border-radius: 5px;
+}
+
+form button {
+  margin: 20px 0 0 0;
+  width: 100%;
+  font-size: 14px;
+  padding: 20px 20px;
+  background-color: #000;
+  color: white;
+  border: none;
+  position: sticky;
+  bottom: 0;
+  box-sizing: border-box;
 }
