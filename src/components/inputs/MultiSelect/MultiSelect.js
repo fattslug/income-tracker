@@ -48,7 +48,7 @@ class MultiSelect extends Component {
             )}
           </span>
           <span className='multiselect-display__icon'>
-            <i class="fas fa-edit"></i>
+            <i className="fas fa-edit"></i>
           </span>
         </div>
         <MultiSelectModal
