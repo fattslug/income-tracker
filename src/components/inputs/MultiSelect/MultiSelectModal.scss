@@ -7,11 +7,10 @@
     flex-direction: row;
     justify-content: space-between;
     width: 80%;
-    background-color: white;
+    background-color: #fafafa;
     padding: 15px 20px;
     margin: 10px auto;
-    border-radius: 5px;
-    border: 1px solid #a0a0a0;
+    border: 1px solid rgba(0,0,0,0.2);
     transition: all 0.2s ease-in-out;
     cursor: pointer;
     &:focus {
@@ -31,7 +30,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 1px solid #a0a0a0;
+      border: 1px solid rgba(0,0,0,0.2);
+      background-color: white;
       border-radius: 3px;
     }
 
@@ -44,7 +44,7 @@
       }
       .options-card__checkbox {
         border: 1px solid white;
-        color: white;
+        color: rgb(81, 184, 74);
       }
     }
   }
