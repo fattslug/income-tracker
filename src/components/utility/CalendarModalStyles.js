@@ -4,7 +4,8 @@ const modalStyles = {
     transition: 'all 0.3s ease-in-out',
     animationName: 'fadeIn',
     animationDuration: '0.2s',
-    animationFillMode: 'forwards'
+    animationFillMode: 'forwards',
+    zIndex: '999'
   },
   content: {
     left: '20px',
