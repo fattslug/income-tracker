@@ -29,7 +29,7 @@ class EntryForm extends Component {
         ClientName: '',
         PaymentType: '',
         ServicesRendered: [],
-        AmountPaid: 0,
+        AmountPaid: null,
       },
       options: {
         serviceOptions: [{
@@ -177,8 +177,10 @@ class EntryForm extends Component {
           <div className='entryform-heading'>
             <h1>Add an entry</h1>
           </div>
-          <div>
+          <div className='entryform-field'>
+            <label htmlFor='dateAdded'>Date of Service:</label>
             <Calendar
+              id='dateAdded'
               value={selectedDate}
               description='Select a date:'
               onChange={(value) => this.handleChange('DateAdded', value)}
@@ -186,26 +188,32 @@ class EntryForm extends Component {
           </div>
           <div className='entryform-field'>
             <label htmlFor='clientName'>Client Name</label>
-            <input type='text'
-              id='clientName'
-              placeholder='Client Name'
-              value={ClientName}
-              onChange={(e) => this.handleChange('ClientName', e.target.value)}
-            />
+            <div className='entryform-inputarea'>
+              <input type='text'
+                className='entryform-input'
+                id='clientName'
+                placeholder='Client Name'
+                value={ClientName}
+                onChange={(e) => this.handleChange('ClientName', e.target.value)}
+              />
+            </div>
             <Error show={errors.ClientName}>Please enter a client name.</Error>
           </div>
           <div className='entryform-field'>
-            <label htmlFor="paymentType">Payment Type</label>
-            <select
-              id='paymentType'
-              value={PaymentType}
-              placeholder='Select'
-              onChange={(e) => this.handleChange('PaymentType', e.target.value)}
-            >
-              {paymentOptions.map((option, index) => (
-                <option key={index} value={option}>{option}</option>
-              ))}
-            </select>
+            <div className='entryform-inputarea'>
+              <label htmlFor="paymentType">Payment Type</label>
+              <select
+                id='paymentType'
+                className='entryform-input'
+                value={PaymentType}
+                placeholder='Select'
+                onChange={(e) => this.handleChange('PaymentType', e.target.value)}
+              >
+                {paymentOptions.map((option, index) => (
+                  <option key={index} value={option}>{option}</option>
+                ))}
+              </select>
+            </div>
             <Error show={errors.PaymentType}>Please select a payment type.</Error>
           </div>
           <div className='entryform-field'>
@@ -217,31 +225,33 @@ class EntryForm extends Component {
               onChange={(value) => this.handleChange('ServicesRendered', value)}
               description='Select services rendered:'
             />
-            <Error show={errors.ServicesRendered}>Please select services rendered htmlFor this client.</Error>
+            <Error show={errors.ServicesRendered}>Please select services rendered for this client.</Error>
           </div>
           <div className='entryform-field'>
             <label htmlFor='amountPaid'>Cost of service</label>
-            <NumberFormat
-              id='amountPaid'
-              value={AmountPaid}
-              thousandSeparator={true}
-              decimalSeparator='.'
-              fixedDecimalScale={true}
-              decimalScale={2}
-              prefix={'$'}
-              pattern='\d*'
-              type='tel'
-              onValueChange={(values) => this.handleChange('AmountPaid', values.floatValue)}
-            />
+            <div className='entryform-inputarea'>
+              <NumberFormat
+                id='amountPaid'
+                className='entryform-input'
+                value={AmountPaid}
+                thousandSeparator={true}
+                decimalSeparator='.'
+                fixedDecimalScale={true}
+                decimalScale={2}
+                prefix={'$'}
+                pattern='\d*'
+                type='tel'
+                onValueChange={(values) => this.handleChange('AmountPaid', values.floatValue)}
+              />
+            </div>
             <Error show={errors.AmountPaidString}>Please enter the amount paid by this client.</Error>
           </div>
-          <Error show={errors.Server}>Error submitting form. Please try again later.</Error>
-          <div className='entryform-field'>
-            <button className='add' type='submit' onClick={(e) => { this.handleSubmit(e) }}>
-              Submit
-            </button>
-          </div>
+          <Error show={errors.Server}>Error submitting form. Please try again later.</Error>          
         </div>
+
+        <button type='submit' onClick={(e) => { this.handleSubmit(e) }}>
+          Submit
+        </button>
       </form>
     );
   }

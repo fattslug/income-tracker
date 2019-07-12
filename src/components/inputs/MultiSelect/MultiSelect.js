@@ -41,8 +41,15 @@ class MultiSelect extends Component {
         onClick={() => this.toggleModal()}
         onKeyPress={() => this.toggleModal()}
       >
-        <div className='display'>
-          {selectedStrings.join(', ')}
+        <div className='multiselect-display'>
+          <span className='multiselect-display__text'>
+            {selectedStrings.join(', ') || (
+              <div className='default'>None selected</div>
+            )}
+          </span>
+          <span className='multiselect-display__icon'>
+            <i class="fas fa-edit"></i>
+          </span>
         </div>
         <MultiSelectModal
           key={this.props.values.length}
