@@ -229,6 +229,7 @@ class EntryForm extends Component {
               fixedDecimalScale={true}
               decimalScale={2}
               prefix={'$'}
+              pattern='\d*'
               onValueChange={(values) => this.handleChange('AmountPaid', values.floatValue)}
             />
             <Error show={errors.AmountPaidString}>Please enter the amount paid by this client.</Error>
