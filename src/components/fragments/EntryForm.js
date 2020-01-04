@@ -30,6 +30,7 @@ class EntryForm extends Component {
         PaymentType: 'Cash',
         ServicesRendered: [],
         AmountPaid: null,
+        Tip: null
       },
       options: {
         serviceOptions: [{
@@ -118,7 +119,6 @@ class EntryForm extends Component {
     this.validateForm().then((hasErrors) => {
       if (!hasErrors) {
         if (this.props.mode === 'edit') {
-
           // Update data
           axios.put(`${process.env.REACT_APP_SERVICE_URL}/entries/${this.props.entryData._id}`, {
             entry: this.state.values
@@ -130,9 +130,7 @@ class EntryForm extends Component {
           }).catch((err) => {
             this.setState({ errors: { Server: true } });
           });
-
         } else if (this.props.mode === 'new') {
-
           // Submit data
           axios.post(process.env.REACT_APP_SERVICE_URL + '/entries/', {
             entry: this.state.values
@@ -152,21 +150,22 @@ class EntryForm extends Component {
 
   assignFormValues = () => {
     if (!this.state.values.ClientName && this.props.entryData.ClientName) {
-      const { DateAdded, ClientName, PaymentType, ServicesRendered, AmountPaid } = this.props.entryData;
+      const { DateAdded, ClientName, PaymentType, ServicesRendered, AmountPaid, Tip } = this.props.entryData;
       this.setState({
         values: {
           DateAdded: DateAdded,
           ClientName: ClientName,
           PaymentType: PaymentType,
           ServicesRendered: ServicesRendered,
-          AmountPaid: AmountPaid
+          AmountPaid: AmountPaid,
+          Tip: Tip
         }
       });
     }
   }
 
   render() {
-    const { DateAdded, ClientName, PaymentType, ServicesRendered, AmountPaid } = this.state.values;
+    const { DateAdded, ClientName, PaymentType, ServicesRendered, AmountPaid, Tip } = this.state.values;
     const { serviceOptions, paymentOptions } = this.state.options;
     const selectedDate = new Date(DateAdded);
     const errors = this.state.errors;
@@ -192,7 +191,6 @@ class EntryForm extends Component {
               <input type='text'
                 className='entryform-input'
                 id='clientName'
-                placeholder='Client Name'
                 value={ClientName}
                 onChange={(e) => this.handleChange('ClientName', e.target.value)}
               />
@@ -245,6 +243,24 @@ class EntryForm extends Component {
               />
             </div>
             <Error show={errors.AmountPaidString}>Please enter the amount paid by this client.</Error>
+          </div>
+          <div className='entryform-field'>
+            <label htmlFor='amountPaid'>Amount tipped (optional)</label>
+            <div className='entryform-inputarea'>
+              <NumberFormat
+                id='tip'
+                className='entryform-input'
+                value={Tip}
+                thousandSeparator={true}
+                decimalSeparator='.'
+                fixedDecimalScale={true}
+                decimalScale={2}
+                prefix={'$'}
+                pattern='\d*'
+                type='tel'
+                onValueChange={(values) => this.handleChange('Tip', values.floatValue)}
+              />
+            </div>
           </div>
           <Error show={errors.Server}>Error submitting form. Please try again later.</Error>          
         </div>
