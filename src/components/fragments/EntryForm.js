@@ -34,9 +34,9 @@ class EntryForm extends Component {
       },
       options: {
         serviceOptions: [{
-          name: 'Womens Cut'
+          name: 'Women\'s Cut'
         }, {
-          name: 'Mens Cut'
+          name: 'Men\'s Cut'
         }, {
           name: 'Root Color'
         }, {
