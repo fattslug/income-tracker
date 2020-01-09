@@ -37,6 +37,47 @@
     background-color: white;
     padding: 10px 15px;
   }
+
+  &-subsection {
+    padding: 20px;
+    background-color: #FFF;
+    border: 1px solid #DDD;
+    margin-top: 10px;
+  }
+
+  &-repeating_row {
+    display: flex;
+    flex-direction: row;
+
+    &-field {
+      padding: 0 15px;
+      font-weight: 100;
+      font-size: 14px;
+      margin: 0;
+
+      label {
+        line-height: 26px;
+      }
+    }
+  }
+
+  &-add_row {
+    margin: 15px 15px 0;
+    padding: 5px;
+    // border-radius: 50px;
+    // width: 50px;
+    background-color: #EEE;
+
+    p {
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      color: #000;
+      border: 1px dashed #000;
+      font-size: 24px;
+      font-weight: bold;
+    }
+  }
 }
 
 .error-message {

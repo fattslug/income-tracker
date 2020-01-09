@@ -27,10 +27,11 @@ class EntryForm extends Component {
       values: {
         DateAdded: new Date(),
         ClientName: '',
-        PaymentType: 'Cash',
         ServicesRendered: [],
-        AmountPaid: null,
-        Tip: null
+        PaymentMethods: [{
+          AmountPaid: null,
+          PaymentType: 'Credit'
+        }]
       },
       options: {
         serviceOptions: [{
@@ -198,23 +199,6 @@ class EntryForm extends Component {
             <Error show={errors.ClientName}>Please enter a client name.</Error>
           </div>
           <div className='entryform-field'>
-            <div className='entryform-inputarea'>
-              <label htmlFor="paymentType">Payment Type</label>
-              <select
-                id='paymentType'
-                className='entryform-input'
-                value={PaymentType}
-                placeholder='Select'
-                onChange={(e) => this.handleChange('PaymentType', e.target.value)}
-              >
-                {paymentOptions.map((option, index) => (
-                  <option key={index} value={option}>{option}</option>
-                ))}
-              </select>
-            </div>
-            <Error show={errors.PaymentType}>Please select a payment type.</Error>
-          </div>
-          <div className='entryform-field'>
             <label htmlFor="services">Services</label>
             <MultiSelect
               id='services'
@@ -225,43 +209,61 @@ class EntryForm extends Component {
             />
             <Error show={errors.ServicesRendered}>Please select services rendered for this client.</Error>
           </div>
-          <div className='entryform-field'>
-            <label htmlFor='amountPaid'>Cost of service</label>
-            <div className='entryform-inputarea'>
-              <NumberFormat
-                id='amountPaid'
-                className='entryform-input'
-                value={AmountPaid}
-                thousandSeparator={true}
-                decimalSeparator='.'
-                fixedDecimalScale={true}
-                decimalScale={2}
-                prefix={'$'}
-                pattern='\d*'
-                type='tel'
-                onValueChange={(values) => this.handleChange('AmountPaid', values.floatValue)}
-              />
+
+          <div className='entryform-subsection'>
+            {/* Payment methods */}
+            <div className='entryform-repeating_row'>
+              <div className='entryform-repeating_row-field'>
+                <div className='entryform-inputarea'>
+                  <label htmlFor="paymentType">Payment Type</label>
+                  <select
+                    id='paymentType'
+                    className='entryform-input'
+                    value={PaymentType}
+                    placeholder='Select'
+                    onChange={(e) => this.handleChange('PaymentType', e.target.value)}
+                  >
+                    {paymentOptions.map((option, index) => (
+                      <option key={index} value={option}>{option}</option>
+                    ))}
+                  </select>
+                </div>
+                <Error show={errors.PaymentType}>Please select a payment method.</Error>
+              </div>
+              <div className='entryform-repeating_row-field'>
+                <label htmlFor='amountPaid'>Amount paid</label>
+                <div className='entryform-inputarea'>
+                  <NumberFormat
+                    id='amountPaid'
+                    className='entryform-input'
+                    value={AmountPaid}
+                    thousandSeparator={true}
+                    decimalSeparator='.'
+                    fixedDecimalScale={true}
+                    decimalScale={2}
+                    prefix={'$'}
+                    pattern='\d*'
+                    type='tel'
+                    inputmode='numeric'
+                    onValueChange={(values) => this.handleChange('AmountPaid', values.floatValue)}
+                  />
+                </div>
+                <Error show={errors.AmountPaidString}>Please enter the amount paid by this client.</Error>
+              </div>
             </div>
-            <Error show={errors.AmountPaidString}>Please enter the amount paid by this client.</Error>
-          </div>
-          <div className='entryform-field'>
-            <label htmlFor='amountPaid'>Amount tipped (optional)</label>
-            <div className='entryform-inputarea'>
-              <NumberFormat
-                id='tip'
-                className='entryform-input'
-                value={Tip}
-                thousandSeparator={true}
-                decimalSeparator='.'
-                fixedDecimalScale={true}
-                decimalScale={2}
-                prefix={'$'}
-                pattern='\d*'
-                type='tel'
-                onValueChange={(values) => this.handleChange('Tip', values.floatValue)}
-              />
+            {/* END Payment methods */}
+
+            <div
+              className='entryform-add_row'
+              role="button"
+              onClick={() => this.addPaymentMethod()}
+              onKeyPress={() => this.addPaymentMethod()}
+              tabIndex={0}
+            >
+              <p>+</p>
             </div>
           </div>
+
           <Error show={errors.Server}>Error submitting form. Please try again later.</Error>          
         </div>
 
