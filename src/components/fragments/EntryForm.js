@@ -214,6 +214,18 @@ class EntryForm extends Component {
     });
   }
 
+  removePaymentMethod = (index) => {
+    const { PaymentMethods } = this.state.values;
+    PaymentMethods.splice(index, 1);
+    this.setState((prevState) => ({
+      ...prevState,
+      values: {
+        ...prevState.values,
+        PaymentMethods
+      }
+    }))
+  }
+
   render() {
     const { DateAdded, ClientName, ServicesRendered, PaymentMethods } = this.state.values;
     const { serviceOptions, paymentOptions } = this.state.options;
@@ -304,6 +316,17 @@ class EntryForm extends Component {
                     Please enter the amount paid by this client.
                   </Error>
                 </div>
+                {index > 0 && (
+                  <div
+                    className='delete-row'
+                    onClick={() => this.removePaymentMethod(index)}
+                    onKeyPress={() => this.addPaymentMethod(index)}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    x
+                  </div>
+                )}
               </div>
             ))}
             {/* END Payment methods */}
