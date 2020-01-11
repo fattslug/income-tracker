@@ -117,10 +117,12 @@ class EntryCard extends Component {
   }
 
   render() {
-    const colors = this.getPaymentColor(this.props.cardData.PaymentType);
+    const { DateAdded, PaymentMethods } = this.props.cardData;
     const getAnimationDelay = () => {
       return `${this.props.index * 0.1}s`
     }
+
+    let totalPaid = PaymentMethods.reduce((acc, curr) => acc + curr.AmountPaid, 0);
 
     return (
       // Card Container
@@ -136,12 +138,12 @@ class EntryCard extends Component {
           <div className='month'>
             {Intl.DateTimeFormat('en-US', {
               month: 'short'
-            }).format(new Date(this.props.cardData.DateAdded))}
+            }).format(new Date(DateAdded))}
           </div>
           <div className='date'>
             {Intl.DateTimeFormat('en-US', {
               day: '2-digit'
-            }).format(new Date(this.props.cardData.DateAdded))}
+            }).format(new Date(DateAdded))}
           </div>
         </div>
         {/* END Date Area */}
@@ -156,7 +158,7 @@ class EntryCard extends Component {
               <div>
                 {/* Amount Paid */}
                 <div className='card-content__amount'>
-                  {amountFormatter.format(this.props.cardData.AmountPaid || 0)}
+                  {amountFormatter.format(totalPaid || 0)}
                 </div>
                 {/* END Amount Paid */}
                 {/* Client Name */}
@@ -167,20 +169,25 @@ class EntryCard extends Component {
               </div>
               
               {/* Payment Type */}
-              <div className='card-content__payment'
-                style={{
-                  backgroundColor: colors.bgColor,
-                }}
-              >
-                <span
-                  className='card-content__payment__text'
+              {PaymentMethods && PaymentMethods.map((paymentMethod, index) => (
+                // New data model (with PaymentMethods array)
+                <div
+                  key={`payment-type-${index}`}
+                  className='card-content__payment'
                   style={{
-                    color: colors.text
+                    backgroundColor: this.getPaymentColor(paymentMethod.PaymentType).bgColor,
                   }}
                 >
-                  {this.props.cardData.PaymentType}
-                </span>
-              </div>
+                  <span
+                    className='card-content__payment__text'
+                    style={{
+                      color: this.getPaymentColor(paymentMethod.PaymentType).text
+                    }}
+                  >
+                    {paymentMethod.PaymentType}
+                  </span>
+                </div>
+              ))}
               {/* END Payment Type */}
 
             </div>
