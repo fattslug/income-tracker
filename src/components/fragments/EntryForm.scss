@@ -39,7 +39,7 @@
   }
 
   &-subsection {
-    padding: 20px;
+    padding: 20px 20px 30px;
     background-color: #FFF;
     border: 1px solid #DDD;
     margin-top: 10px;
@@ -58,6 +58,10 @@
       label {
         line-height: 26px;
       }
+    }
+
+    &:nth-child(2) {
+      margin-top: 15px;
     }
   }
 

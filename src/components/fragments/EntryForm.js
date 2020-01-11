@@ -73,12 +73,22 @@ class EntryForm extends Component {
     }
   }
 
-  handleChange = (fieldName, newValue) => {
+  handleChange = (fieldName, newValue, group=null, index=-1) => {
     let currentValues = this.state.values;
     let currentErrors = this.state.errors;
 
-    currentValues[fieldName] = newValue;
-    currentErrors[fieldName] = this.validateField(fieldName);
+    if (index > -1) currentValues[group][index][fieldName] = newValue;
+    else currentValues[fieldName] = newValue;
+    
+    if (index > -1) {
+      const hasError = this.validateField(group);
+      if (hasError) currentErrors[group] = hasError;
+      else if (currentErrors[group]) delete currentErrors[group];
+    } else {
+      const hasError = this.validateField(fieldName);
+      if (hasError) currentErrors[fieldName] = hasError;
+      else if (currentErrors[fieldName]) delete currentErrors[fieldName];
+    }
 
     this.setState({
       values: currentValues,
@@ -87,35 +97,51 @@ class EntryForm extends Component {
   }
 
   validateField = (fieldName) => {
-    if (fieldName === 'AmountPaidString') {
-      return (this.state.values[fieldName] <= 0);
-    } else if (fieldName === 'ClientName') {
-      return (this.state.values[fieldName] === '');
+    const { values } = this.state;
+
+    if (fieldName === 'ClientName') {
+      return (values[fieldName] === '');
     } else if (fieldName === 'ServicesRendered') {
-      return (this.state.values[fieldName] <= 0);
-    } else if (fieldName === 'PaymentType') {
-      return (this.state.values[fieldName] === '');
+      return (values[fieldName] <= 0);
+    } else if (fieldName === 'PaymentMethods') {
+
+      const errors = [];
+      values.PaymentMethods.forEach((paymentMethod, index) => {
+        const hasAmountPaidError = !paymentMethod.AmountPaid || paymentMethod.AmountPaid <= 0;
+        const hasPaymentTypeError = paymentMethod.PaymentType === '';
+
+        if (hasAmountPaidError || hasPaymentTypeError) {
+          errors[index] = {
+            AmountPaid: hasAmountPaidError,
+            PaymentType: hasPaymentTypeError
+          };
+        }
+      });
+      return errors.length > 0 ? errors : false;
+
     }
   }
 
   validateForm = () => {
     return new Promise((resolve) => {
-      const errors = {
-        AmountPaidString: this.validateField('AmountPaidString'),
-        ClientName: this.validateField('ClientName'),
-        ServicesRendered: this.validateField('ServicesRendered'),
-        PaymentType: this.validateField('PaymentType')
-      };
+      const errors = {};
+
+      const hasClientNameError = this.validateField('ClientName');
+      if (hasClientNameError) errors.ClientName = hasClientNameError;
+
+      const hasServicesRenderedError = this.validateField('ServicesRendered');
+      if (hasServicesRenderedError) errors.ServicesRendered = hasServicesRenderedError;
+
+      const hasPaymentMethodsErrors = this.validateField('PaymentMethods');
+      if (hasPaymentMethodsErrors.length > 0) errors.PaymentMethods = hasPaymentMethodsErrors;
+
       this.setState({ errors: errors });
-      resolve(Object.values(errors).find(err => err === true) || false);
+      resolve(Object.keys(errors).length > 0 || false);
     });
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
-    
-    // let currentState = this.state.values;
-    // this.setState(currentState);
 
     this.validateForm().then((hasErrors) => {
       if (!hasErrors) {
@@ -151,25 +177,48 @@ class EntryForm extends Component {
 
   assignFormValues = () => {
     if (!this.state.values.ClientName && this.props.entryData.ClientName) {
-      const { DateAdded, ClientName, PaymentType, ServicesRendered, AmountPaid, Tip } = this.props.entryData;
+      const { DateAdded, ClientName, ServicesRendered, PaymentMethods, AmountPaid, PaymentType } = this.props.entryData;
+
+      // Accomodate legacy data model (no PaymentMethods array)
+      let paymentMethods;
+      if ((AmountPaid || PaymentType) && PaymentMethods.length < 1) {
+        paymentMethods = [{
+          AmountPaid,
+          PaymentType
+        }];
+      }
+
       this.setState({
         values: {
-          DateAdded: DateAdded,
-          ClientName: ClientName,
-          PaymentType: PaymentType,
-          ServicesRendered: ServicesRendered,
-          AmountPaid: AmountPaid,
-          Tip: Tip
+          DateAdded,
+          ClientName,
+          ServicesRendered,
+          PaymentMethods: (PaymentMethods.length > 0 && PaymentMethods)
+            || paymentMethods
         }
       });
     }
   }
 
+  addPaymentMethod = () => {
+    this.setState((prevState) => {
+      const { PaymentMethods } = prevState.values;
+      PaymentMethods.push({ AmountPaid: null, PaymentType: 'Cash' });
+      return {
+        ...prevState,
+        values: {
+          ...prevState.values,
+          PaymentMethods
+        }
+      };
+    });
+  }
+
   render() {
-    const { DateAdded, ClientName, PaymentType, ServicesRendered, AmountPaid, Tip } = this.state.values;
+    const { DateAdded, ClientName, ServicesRendered, PaymentMethods } = this.state.values;
     const { serviceOptions, paymentOptions } = this.state.options;
     const selectedDate = new Date(DateAdded);
-    const errors = this.state.errors;
+    const { errors } = this.state;
     
     return (
       <form onSubmit={this.handleSubmit} className='entryform'>
@@ -212,56 +261,64 @@ class EntryForm extends Component {
 
           <div className='entryform-subsection'>
             {/* Payment methods */}
-            <div className='entryform-repeating_row'>
-              <div className='entryform-repeating_row-field'>
-                <div className='entryform-inputarea'>
-                  <label htmlFor="paymentType">Payment Type</label>
-                  <select
-                    id='paymentType'
-                    className='entryform-input'
-                    value={PaymentType}
-                    placeholder='Select'
-                    onChange={(e) => this.handleChange('PaymentType', e.target.value)}
-                  >
-                    {paymentOptions.map((option, index) => (
-                      <option key={index} value={option}>{option}</option>
-                    ))}
-                  </select>
+            {PaymentMethods.map((paymentMethod, index) => (
+              <div key={`payment-${index}`} className='entryform-repeating_row'>
+                <div className='entryform-repeating_row-field'>
+                  <div className='entryform-inputarea'>
+                    <label htmlFor="paymentType">Payment Type</label>
+                    <select
+                      id='paymentType'
+                      className='entryform-input'
+                      value={paymentMethod.PaymentType}
+                      placeholder='Select'
+                      onChange={(e) => this.handleChange('PaymentType', e.target.value, 'PaymentMethods', index)}
+                    >
+                      {paymentOptions.map((option, index) => (
+                        <option key={index} value={option}>{option}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <Error show={errors.PaymentMethods && errors.PaymentMethods[index] && errors.PaymentMethods[index].PaymentType}>
+                    Please select a payment method.
+                  </Error>
                 </div>
-                <Error show={errors.PaymentType}>Please select a payment method.</Error>
-              </div>
-              <div className='entryform-repeating_row-field'>
-                <label htmlFor='amountPaid'>Amount paid</label>
-                <div className='entryform-inputarea'>
-                  <NumberFormat
-                    id='amountPaid'
-                    className='entryform-input'
-                    value={AmountPaid}
-                    thousandSeparator={true}
-                    decimalSeparator='.'
-                    fixedDecimalScale={true}
-                    decimalScale={2}
-                    prefix={'$'}
-                    pattern='\d*'
-                    type='tel'
-                    inputmode='numeric'
-                    onValueChange={(values) => this.handleChange('AmountPaid', values.floatValue)}
-                  />
+                <div className='entryform-repeating_row-field'>
+                  <label htmlFor='amountPaid'>Amount paid</label>
+                  <div className='entryform-inputarea'>
+                    <NumberFormat
+                      id='amountPaid'
+                      className='entryform-input'
+                      value={paymentMethod.AmountPaid}
+                      thousandSeparator={true}
+                      decimalSeparator='.'
+                      fixedDecimalScale={true}
+                      decimalScale={2}
+                      prefix={'$'}
+                      pattern='\d*'
+                      type='tel'
+                      inputMode='numeric'
+                      onValueChange={(values) => this.handleChange('AmountPaid', values.floatValue, 'PaymentMethods', index)}
+                    />
+                  </div>
+                  <Error show={errors.PaymentMethods && errors.PaymentMethods[index] && errors.PaymentMethods[index].AmountPaid}>
+                    Please enter the amount paid by this client.
+                  </Error>
                 </div>
-                <Error show={errors.AmountPaidString}>Please enter the amount paid by this client.</Error>
               </div>
-            </div>
+            ))}
             {/* END Payment methods */}
 
-            <div
-              className='entryform-add_row'
-              role="button"
-              onClick={() => this.addPaymentMethod()}
-              onKeyPress={() => this.addPaymentMethod()}
-              tabIndex={0}
-            >
-              <p>+</p>
-            </div>
+            {this.state.values.PaymentMethods.length <2 && (  
+              <div
+                className='entryform-add_row'
+                role="button"
+                onClick={() => this.addPaymentMethod()}
+                onKeyPress={() => this.addPaymentMethod()}
+                tabIndex={0}
+              >
+                <p>+</p>
+              </div>
+            )}
           </div>
 
           <Error show={errors.Server}>Error submitting form. Please try again later.</Error>          
