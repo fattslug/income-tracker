@@ -24,6 +24,7 @@ class EntryForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isSubmitted: false,
       values: {
         DateAdded: new Date(),
         ClientName: '',
@@ -142,6 +143,7 @@ class EntryForm extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    this.setState({ isSubmitted: true });
 
     this.validateForm().then((hasErrors) => {
       if (!hasErrors) {
@@ -233,8 +235,8 @@ class EntryForm extends Component {
     const { errors } = this.state;
     
     return (
-      <form onSubmit={this.handleSubmit} className='entryform'>
-        <div className='entryform-body'>
+      <>
+        <form onSubmit={this.handleSubmit} className='entryform'>
           <div className='entryform-heading'>
             <h1>Add an entry</h1>
           </div>
@@ -342,15 +344,15 @@ class EntryForm extends Component {
                 <p>+</p>
               </div>
             )}
+
+            <Error show={errors.Server}>Error submitting form. Please try again later.</Error>          
           </div>
+        </form>
 
-          <Error show={errors.Server}>Error submitting form. Please try again later.</Error>          
-        </div>
-
-        <button type='submit' onClick={(e) => { this.handleSubmit(e) }}>
+        <button type='submit' onClick={(e) => { this.handleSubmit(e) }} disabled={this.state.isSubmitted}>
           Submit
         </button>
-      </form>
+      </>
     );
   }
 }

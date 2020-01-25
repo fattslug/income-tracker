@@ -30,14 +30,14 @@ class EntryList extends Component {
   render() {
     const { isDeleteModalShowing, selectedEntry } = this.state;
     return (
-      <div>
+      <>
         <div className='entries'>
           {this.props.cardData.map((data, index) => {
             return (<EntryCard key={index} index={index} cardData={data} selected={this.selectEntry} showDeleteModal={this.showDeleteModal} />);
           })}
         </div>
         <DeleteModal isOpen={isDeleteModalShowing} selectedEntry={selectedEntry} showDeleteModal={this.showDeleteModal} />
-      </div>
+      </>
     )
   }
 }

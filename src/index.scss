@@ -12,6 +12,10 @@ a {
   text-decoration: none;
 }
 
+body, html {
+  height: 100vh;
+}
+
 body, html, button {
   font-family: 'Open Sans', sans-serif;
   &:focus {
@@ -20,9 +24,14 @@ body, html, button {
 }
 
 .appbody {
-  display: flex;
-  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(14, 1fr);
+  max-width: 500px;
+  margin: 0 auto;
   height: 100%;
+  animation-name: fadeIn;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
 }
 
 // .amount {

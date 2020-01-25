@@ -169,25 +169,27 @@ class EntryCard extends Component {
               </div>
               
               {/* Payment Type */}
-              {PaymentMethods && PaymentMethods.map((paymentMethod, index) => (
-                // New data model (with PaymentMethods array)
-                <div
-                  key={`payment-type-${index}`}
-                  className='card-content__payment'
-                  style={{
-                    backgroundColor: this.getPaymentColor(paymentMethod.PaymentType).bgColor,
-                  }}
-                >
-                  <span
-                    className='card-content__payment__text'
+              <div className='card-content-payment_area'>
+                {PaymentMethods && PaymentMethods.map((paymentMethod, index) => (
+                  // New data model (with PaymentMethods array)
+                  <div
+                    key={`payment-type-${index}`}
+                    className='card-content__payment'
                     style={{
-                      color: this.getPaymentColor(paymentMethod.PaymentType).text
+                      backgroundColor: this.getPaymentColor(paymentMethod.PaymentType).bgColor,
                     }}
                   >
-                    {paymentMethod.PaymentType}
-                  </span>
-                </div>
-              ))}
+                    <span
+                      className='card-content__payment__text'
+                      style={{
+                        color: this.getPaymentColor(paymentMethod.PaymentType).text
+                      }}
+                    >
+                      {paymentMethod.PaymentType}
+                    </span>
+                  </div>
+                ))}
+              </div>
               {/* END Payment Type */}
 
             </div>
