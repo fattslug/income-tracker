@@ -51,6 +51,7 @@ class CalendarModal extends Component {
             <Calendar
               onChange={(date) => this.selectDate(date)}
               value={this.state.selectedDate}
+              calendarType="US"
             />
           </div>
 
