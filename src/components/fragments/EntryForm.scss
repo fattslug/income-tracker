@@ -1,5 +1,7 @@
 .entryform {
-  width: 100%;
+  grid-row: 1;
+  grid-column: 2 / span 12;
+  margin-top: 30px;
 
   &-body {
     display: flex;
@@ -101,7 +103,9 @@
   border-radius: 5px;
 }
 
-form button {
+button[type=submit] {
+  grid-row: 2;
+  grid-column: span 14;
   margin: 20px 0 0 0;
   width: 100%;
   font-size: 14px;

@@ -5,7 +5,7 @@
   transition: all 0.2s ease-out;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  margin: 15px 25px;
+  margin: 15px 0;
   animation-name: swipeIn;
   animation-duration: 0.2s;
   animation-fill-mode: forwards;
@@ -15,5 +15,5 @@
 }
 
 .entries {
-  width: 100vw;
+  width: 100%;
 }

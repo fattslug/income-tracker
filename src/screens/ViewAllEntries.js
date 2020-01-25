@@ -58,7 +58,7 @@ class ViewAllEntries extends Component {
       return null;
     }
     return (
-      <div className='view-container'>
+      <>
         <div className='view-header'>
           <div className='view-total'>
             <div className='amount'>
@@ -75,19 +75,16 @@ class ViewAllEntries extends Component {
         <div className='entries-container'>
           <EntryList cardData={cardData} refreshData={this.getData} />
         </div>
-      </div>
+      </>
     )
   }
 
   render() {
     return (
-      <div
-        style={{
-          fill: true
-        }}>
+      <>
         <LoadingIcon show={this.state.isLoading} />
         {this.mainContent(this.state.isLoading)}
-      </div>
+      </>
     );
   }
 }
