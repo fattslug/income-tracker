@@ -40,12 +40,17 @@
         }
       }
     }
+
     &__days {
       margin: 10px 0;
 
       &__day--neighboringMonth {
         color: rgba(0, 0, 0, 0.3);
       }
+    }
+
+    button {
+      width: calc(100% / 7);
     }
   }
 
