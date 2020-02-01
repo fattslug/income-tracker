@@ -6,7 +6,7 @@ import DraggableArea from './DraggableArea';
 import './FilterArea.scss';
 
 const FilterArea = (props) => {
-  const [startDate, setStartDate] = useState(moment().startOf('month'));
+  const [startDate, setStartDate] = useState(moment().startOf('year'));
   const [endDate, setEndDate] = useState(moment());
   const [paymentTypes, setPaymentTypes] = useState([0, 1, 2, 3])
   const DISPLAY_FORMAT = 'MMM D YYYY';
