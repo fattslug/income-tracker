@@ -12,7 +12,7 @@
     button {
       background-color: white;
       color: black;
-      padding: 7px 15px;
+      padding: 5px 10px;
       border: 1px solid black;;
       margin: 5px 5px 0 0;
       flex-grow: 1;
@@ -24,35 +24,38 @@
   
       &.cash {
         border: 1px solid rgb(81, 184, 74);
-        color: rgb(81, 184, 74);
+        background-color: rgb(81, 184, 74);
+        color: white;
+        opacity: 0.5;
         &.active {
-          background-color: rgb(81, 184, 74);
-          color: white;
+          opacity: 1;
         }
       }
       &.credit {
         border: 1px solid rgb(206, 72, 43);
-        color: rgb(206, 72, 43);
+        background-color: rgb(206, 72, 43);
+        color: white;
+        opacity: 0.5;
         &.active {
-          background-color: rgb(206, 72, 43);
-          color: white;
+          opacity: 1;
         }
       }
       &.venmo {
         border: 1px solid rgb(44, 148, 207);
-        color: rgb(44, 148, 207);
+        background-color: rgb(44, 148, 207);
+        color: white;
+        opacity: 0.5;
         &.active {
-          background-color: rgb(44, 148, 207);
-          color: white;
+          opacity: 1;
         }
       }
       &.apple {
-        border: 1px solid black;
+        border: 1px solid rgb(224, 224, 224);
+        background-color: rgb(224, 224, 224);
         color: black;
+        opacity: 0.5;
         &.active {
-          background-color: rgb(224, 224, 224);
-          color: black;
-          border: 1px solid rgb(224, 224, 224);
+          opacity: 1;
         }
       }
     }
