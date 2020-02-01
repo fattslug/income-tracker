@@ -43,7 +43,7 @@ const FilterArea = (props) => {
       head={(
         <div className="date-range">
           <div>{startDate.format(DISPLAY_FORMAT)}</div>
-          <img src="/assets/images/next.svg" alt="to" className='to' />
+          <img src="assets/images/next.svg" alt="to" className='to' />
           <div>{endDate.format(DISPLAY_FORMAT)}</div>
         </div>
       )}
