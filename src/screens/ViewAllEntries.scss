@@ -98,6 +98,7 @@ svg {
   animation: 2s linear infinite svg-animation;
   max-width: 100px;
   height: 100px;
+  margin-top: -150px;
 }
 
 // SVG animation.
@@ -112,7 +113,7 @@ svg {
 
 // Circle styles.
 circle {
-  animation: 1.4s ease-in-out infinite both circle-animation;
+  animation: 1s linear infinite both circle-animation;
   display: block;
   fill: transparent;
   stroke: #FFF;
@@ -125,16 +126,14 @@ circle {
 
 // Circle animation.
 @keyframes circle-animation {
-  0%,
-  25% {
+  0% {
     stroke-dashoffset: 280;
     transform: rotate(0);
   }
   
-  50%,
-  75% {
-    stroke-dashoffset: 75;
-    transform: rotate(45deg);
+  50% {
+    stroke-dashoffset: 200;
+    transform: rotate(180deg);
   }
   
   100% {
