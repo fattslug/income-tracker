@@ -1,0 +1,27 @@
+.draggable-area {
+  grid-row: 1;
+  grid-column: span 14;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  border-bottom: 1px solid #d0d0d0;
+  justify-content: flex-start;
+  position: relative;
+  .down {
+    height: 20px;
+    width: 20px;
+    background-color: #d0d0d0;
+    position: absolute;
+    bottom: -5px;
+    transform: rotate(45deg);
+    z-index: -1;
+  }
+
+  .hidden-body {
+    display: grid;
+    grid-template-columns: repeat(14, 1fr);
+    overflow-y: hidden;
+    width: 100%;
+  }
+}

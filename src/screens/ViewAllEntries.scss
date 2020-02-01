@@ -13,26 +13,6 @@
 }
 
 .date {
-  &-area {
-    grid-row: 1;
-    grid-column: span 14;
-    background-color: #FFF;
-    display: flex;
-    align-items: flex-start;
-    border-bottom: 1px solid #D0D0D0;
-    justify-content: center;
-    position: relative;
-    // transition: all 0.05s ease-in-out;
-    .down {
-      height: 20px;
-      width: 20px;
-      background-color: #D0D0D0;
-      position: absolute;
-      bottom: -5px;
-      transform: rotate(45deg);
-      z-index: -1;
-    }
-  }
   &-range {
     grid-row: 1;
     grid-column: span 14;

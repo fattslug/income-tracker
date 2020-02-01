@@ -1,11 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
 
-import './ViewAllEntries.scss';
-
 import EntryList from '../components/fragments/EntryList';
+import FilterArea from '../components/fragments/FilterArea';
+
+import './ViewAllEntries.scss';
 
 const amountFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -27,28 +28,27 @@ const LoadingIcon = (props) => {
 }
 
 const ViewAllEntries = () => {
-  const dateArea = useRef();
-  const [slideHeight, setSlideHeight] = useState(42);
-  const [slideDirection, setSlideDirection] = useState(null);
   const [state, setState] = useState({
     cardData: [],
     totalAmount: 0,
-    isLoading: true,
-    from: moment().subtract(30, 'days'),
-    to: moment(),
-    paymentMethods: []
+    isLoading: true
   });
+  const [filterParams, setFilterParams] = useState({
+    startDate: moment().subtract(30, 'days'),
+    endDate: moment(),
+    paymentTypes: []
+  })
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [filterParams]);
 
   const getData = () => {
-    const {from, to, paymentMethods} = state;
+    const {startDate, endDate, paymentTypes} = filterParams;
 
     let url = `${process.env.REACT_APP_SERVICE_URL}/entries`;
-    url += `?f=${new Date(from.format()).getTime()}&t=${new Date(to.format()).getTime()}`;
-    url += paymentMethods.length > 0 && `&pm=${paymentMethods.join(',')}`;
+    url += `?f=${new Date(startDate.format()).getTime()}&t=${new Date(endDate.format()).getTime()}`;
+    url += paymentTypes.length > 0 && `&pm=${paymentTypes.join(',')}`;
 
     axios.get(url, {
       headers: { 'Authorization': 'bearer ' + localStorage.jwt }
@@ -64,44 +64,6 @@ const ViewAllEntries = () => {
     });
   }
 
-  const handleTouchStart = (e) => {
-    e.persist();
-    const body = e.nativeEvent.path[4];
-    console.log(body);
-    const el = e.nativeEvent.path[0];
-    if (el.style) {
-      el.style.transition = "none";
-    }
-    if (body.style && body.style.overflowY !== 'hidden') {
-      body.style.overflowY = 'hidden';
-    }
-  }
-
-  const handleTouchMove = (e) => {
-    e.persist();
-    // console.log('Page Y:', e.nativeEvent && e.nativeEvent.touches[0].pageY);
-    if (e.nativeEvent && e.nativeEvent.touches[0].pageY > 42 && e.nativeEvent.touches[0].pageY < 300) {
-      setSlideHeight(() => e.nativeEvent.touches[0].pageY);
-    }
-  }
-
-  const handleTouchEnd = (e) => {
-    e.persist();
-    const body = e.nativeEvent.path[4];
-    const el = e.nativeEvent.path[0];
-    if (el.style) {
-      el.style.transition = "all 0.2s ease";
-    }
-    if (body.style && body.style.overflowY === 'hidden') {
-      body.style.overflowY = 'scroll';
-    }
-    if (slideHeight >= 150) {
-      setSlideHeight(() => 300);
-    } else if (slideHeight < 150) {
-      setSlideHeight(() => 42);
-    }
-  }
-
   const mainContent = (isLoading) => {
     const { cardData, totalAmount } = state;
     if (isLoading) {
@@ -109,21 +71,11 @@ const ViewAllEntries = () => {
     }
     return (
       <>
-        <div
-          className='date-area'
-          ref={dateArea}
-          style={{ height: slideHeight+'px' }}
-          onTouchStart={(e) => handleTouchStart(e)}
-          onTouchMove={(e) => handleTouchMove(e)}
-          onTouchEnd={(e) => handleTouchEnd(e)}
-        >
-          <div className='date-range'>
-            <div>{state.from.format('MMM D YYYY')}</div>
-            <img src="/assets/images/next.svg" alt="to" className='to' />
-            <div>{state.to.format('MMM D YYYY')}</div>
-          </div>
-          <div className="down" />
-        </div>
+        <FilterArea
+          setStartDate={(startDate) => setFilterParams((prevState) => ({ ...prevState, startDate }))}
+          setEndDate={(endDate) => setFilterParams((prevState) => ({ ...prevState, endDate }))}
+          setPaymentTypes={(paymentTypes) => setFilterParams((prevState) => ({ ...prevState, paymentTypes }))}
+        />
         <div className='view-header'>
           <div className='view-total'>
             <div className='amount'>

@@ -1,0 +1,64 @@
+.filter-section {
+  grid-column: 2 / span 12;
+  margin-top: 10px;
+  &:not(:first-child) {
+    margin-top: 15px;
+  }
+
+  .quick-options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    button {
+      background-color: white;
+      color: black;
+      padding: 7px 15px;
+      border: 1px solid black;;
+      margin: 5px 5px 0 0;
+      flex-grow: 1;
+      &.active {
+        background-color: black;
+        color: white;
+        border: 0;
+      }
+  
+      &.cash {
+        border: 1px solid rgb(81, 184, 74);
+        color: rgb(81, 184, 74);
+        &.active {
+          background-color: rgb(81, 184, 74);
+          color: white;
+        }
+      }
+      &.credit {
+        border: 1px solid rgb(206, 72, 43);
+        color: rgb(206, 72, 43);
+        &.active {
+          background-color: rgb(206, 72, 43);
+          color: white;
+        }
+      }
+      &.venmo {
+        border: 1px solid rgb(44, 148, 207);
+        color: rgb(44, 148, 207);
+        &.active {
+          background-color: rgb(44, 148, 207);
+          color: white;
+        }
+      }
+      &.apple {
+        border: 1px solid black;
+        color: black;
+        &.active {
+          background-color: rgb(224, 224, 224);
+          color: black;
+          border: 1px solid rgb(224, 224, 224);
+        }
+      }
+    }
+  }
+
+  .filter-label {
+    font-size: 12px;
+  }
+}

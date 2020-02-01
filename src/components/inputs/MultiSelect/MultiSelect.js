@@ -33,7 +33,7 @@ class MultiSelect extends Component {
   }
 
   render() {
-    const selectedStrings = this.props.values.map((option) => option.label);
+    const selectedStrings = this.props.values.map((option) => option.name);
     return (
       <div className='multiselect'
         tabIndex='5'
