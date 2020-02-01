@@ -14,18 +14,18 @@ const amountFormatter = new Intl.NumberFormat("en-US", {
   minimumFractionDigits: 2
 });
 
-const LoadingIcon = (props) => {
-  if (props.show) {
-    return(
-      <div className='loading-area'>
-        <span className='loading-icon'>
-          Loading...
-        </span>
-      </div>
-    );
-  }
-  return null;
-}
+// const LoadingIcon = (props) => {
+//   if (props.show) {
+//     return(
+//       <div className='loading-area'>
+//         <span className='loading-icon'>
+//           Loading...
+//         </span>
+//       </div>
+//     );
+//   }
+//   return null;
+// }
 
 const ViewAllEntries = () => {
   const [state, setState] = useState({
@@ -50,6 +50,8 @@ const ViewAllEntries = () => {
     url += `?f=${new Date(startDate.format()).getTime()}&t=${new Date(endDate.format()).getTime()}`;
     url += paymentTypes.length > 0 && `&pm=${paymentTypes.join(',')}`;
 
+    setState((prevState) => ({ ...prevState, isLoading: true }));
+
     axios.get(url, {
       headers: { 'Authorization': 'bearer ' + localStorage.jwt }
     }).then((result) => {
@@ -66,9 +68,6 @@ const ViewAllEntries = () => {
 
   const mainContent = (isLoading) => {
     const { cardData, totalAmount } = state;
-    if (isLoading) {
-      return null;
-    }
     return (
       <>
         <FilterArea
@@ -76,21 +75,30 @@ const ViewAllEntries = () => {
           setEndDate={(endDate) => setFilterParams((prevState) => ({ ...prevState, endDate }))}
           setPaymentTypes={(paymentTypes) => setFilterParams((prevState) => ({ ...prevState, paymentTypes }))}
         />
-        <div className='view-header'>
-          <div className='view-total'>
-            <div className='amount'>
-              {amountFormatter.format(totalAmount || 0)}
+        <div className="main-content">
+          {isLoading && (
+            <div className="loading-overlay">
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="45"/>
+              </svg>
             </div>
-            <div className='label'>
-              Gross Income
+          )}
+          <div className='view-header'>
+            <div className='view-total'>
+              <div className='amount'>
+                {amountFormatter.format(totalAmount || 0)}
+              </div>
+              <div className='label'>
+                Gross Income
+              </div>
             </div>
+            <Link to='/add'>
+              <button className='add'><i className="fas fa-plus-circle"></i>&nbsp;&nbsp;Add Entry</button>
+            </Link>
           </div>
-          <Link to='/add'>
-            <button className='add'><i className="fas fa-plus-circle"></i>&nbsp;&nbsp;Add Entry</button>
-          </Link>
-        </div>
-        <div className='entries-container'>
-          <EntryList cardData={cardData} refreshData={() => getData()} />
+          <div className='entries-container'>
+            <EntryList cardData={cardData} refreshData={() => getData()} />
+          </div>
         </div>
       </>
     )
@@ -98,7 +106,6 @@ const ViewAllEntries = () => {
 
   return (
     <>
-      <LoadingIcon show={state.isLoading} />
       {mainContent(state.isLoading)}
     </>
   );
