@@ -1,10 +1,12 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-
-import './ViewAllEntries.scss';
+import moment from 'moment';
 
 import EntryList from '../components/fragments/EntryList';
+import FilterArea from '../components/fragments/FilterArea';
+
+import './ViewAllEntries.scss';
 
 const amountFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -12,60 +14,75 @@ const amountFormatter = new Intl.NumberFormat("en-US", {
   minimumFractionDigits: 2
 });
 
-class LoadingIcon extends Component {
-  render() {
-    if (this.props.show) {
-      return(
-        <div className='loading-area'>
-          <span className='loading-icon'>
-            Loading...
-          </span>
-        </div>
-      );
-    }
-    return null;
+const LoadingIcon = (props) => {
+  if (props.show) {
+    return(
+      <div className='loading-area'>
+        <span className='loading-icon'>
+          Loading...
+        </span>
+      </div>
+    );
   }
+  return null;
 }
 
-class ViewAllEntries extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      cardData: [],
-      totalAmount: 0,
-      isLoading: true
-    }
-    this.getData();
-  }
+const ViewAllEntries = () => {
+  const [state, setState] = useState({
+    cardData: [],
+    totalAmount: 0,
+    isLoading: true
+  });
+  const [filterParams, setFilterParams] = useState({
+    startDate: moment().subtract(30, 'days'),
+    endDate: moment(),
+    paymentTypes: []
+  })
 
-  getData = () => {
-    axios.get(process.env.REACT_APP_SERVICE_URL + '/entries/', {
+  useEffect(() => {
+    getData();
+  }, [filterParams]);
+
+  const getData = () => {
+    const {startDate, endDate, paymentTypes} = filterParams;
+
+    let url = `${process.env.REACT_APP_SERVICE_URL}/entries`;
+    url += `?f=${new Date(startDate.format()).getTime()}&t=${new Date(endDate.format()).getTime()}`;
+    url += paymentTypes.length > 0 && `&pm=${paymentTypes.join(',')}`;
+
+    axios.get(url, {
       headers: { 'Authorization': 'bearer ' + localStorage.jwt }
     }).then((result) => {
-      this.setState({
+      setState((prevState) => ({
+        ...prevState,
         cardData: result.data.body.entries,
         totalAmount: result.data.body.totalAmount,
         isLoading: false
-      });
+      }));
     }).catch((err) => {
       console.log('Error:', err);
     });
   }
 
-  mainContent = (isLoading) => {
-    const { cardData, totalAmount } = this.state;
+  const mainContent = (isLoading) => {
+    const { cardData, totalAmount } = state;
     if (isLoading) {
       return null;
     }
     return (
       <>
+        <FilterArea
+          setStartDate={(startDate) => setFilterParams((prevState) => ({ ...prevState, startDate }))}
+          setEndDate={(endDate) => setFilterParams((prevState) => ({ ...prevState, endDate }))}
+          setPaymentTypes={(paymentTypes) => setFilterParams((prevState) => ({ ...prevState, paymentTypes }))}
+        />
         <div className='view-header'>
           <div className='view-total'>
             <div className='amount'>
               {amountFormatter.format(totalAmount || 0)}
             </div>
             <div className='label'>
-              Year-to-date
+              Gross Income
             </div>
           </div>
           <Link to='/add'>
@@ -73,20 +90,18 @@ class ViewAllEntries extends Component {
           </Link>
         </div>
         <div className='entries-container'>
-          <EntryList cardData={cardData} refreshData={this.getData} />
+          <EntryList cardData={cardData} refreshData={() => getData()} />
         </div>
       </>
     )
   }
 
-  render() {
-    return (
-      <>
-        <LoadingIcon show={this.state.isLoading} />
-        {this.mainContent(this.state.isLoading)}
-      </>
-    );
-  }
+  return (
+    <>
+      <LoadingIcon show={state.isLoading} />
+      {mainContent(state.isLoading)}
+    </>
+  );
 }
 
 export default ViewAllEntries;
