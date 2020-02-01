@@ -71,9 +71,15 @@ const ViewAllEntries = () => {
     return (
       <>
         <FilterArea
-          setStartDate={(startDate) => setFilterParams((prevState) => ({ ...prevState, startDate }))}
-          setEndDate={(endDate) => setFilterParams((prevState) => ({ ...prevState, endDate }))}
-          setPaymentTypes={(paymentTypes) => setFilterParams((prevState) => ({ ...prevState, paymentTypes }))}
+          setStartDate={(startDate) => setFilterParams((prevState) => ({
+            ...prevState, startDate
+          }))}
+          setEndDate={(endDate) => setFilterParams((prevState) => ({
+            ...prevState, endDate
+          }))}
+          setPaymentTypes={(paymentTypes) => setFilterParams((prevState) => ({
+            ...prevState, paymentTypes
+          }))}
         />
         <div className="main-content">
           {isLoading && (
