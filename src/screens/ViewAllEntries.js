@@ -34,7 +34,7 @@ const ViewAllEntries = () => {
     isLoading: true
   });
   const [filterParams, setFilterParams] = useState({
-    startDate: moment().subtract(30, 'days'),
+    startDate: moment().startOf('year'),
     endDate: moment(),
     paymentTypes: []
   })
