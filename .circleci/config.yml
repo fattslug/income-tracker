@@ -49,8 +49,8 @@ jobs:
 
       - run:
           name: Remove Old Build
-          command: ssh -o "StrictHostKeyChecking no" root@seanpowell.dev "cd /var/www/html; rm -rf income-tracker"
+          command: ssh -o "StrictHostKeyChecking no" circleci@seanpowell.dev "cd /var/www/html; rm -rf income-tracker"
 
       - run:
           name: Upload New Build
-          command: scp -o "StrictHostKeyChecking no" -r /home/circleci/repo/build root@seanpowell.dev:/var/www/html/seanpowell.dev/income-tracker
+          command: scp -o "StrictHostKeyChecking no" -r /home/circleci/repo/build circleci@seanpowell.dev:/var/www/html/seanpowell.dev/income-tracker
