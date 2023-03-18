@@ -32,7 +32,7 @@ const Login = () => {
       <div className={styles.wrapper}>
         <div className={styles.container}>
           <div className={styles.title}>
-            <a target="_blank" href={createGoogleURL(quote)}>
+            <a target="_blank" href={createGoogleURL(quote)} rel="noreferrer">
               {quote}
             </a>
           </div>

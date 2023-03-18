@@ -6,45 +6,45 @@ const DraggableArea = (props) => {
   const MAX_HEIGHT = 240;
   const [slideHeight, setSlideHeight] = useState(42);
 
-  const handleTouchStart = (e) => {
-    e.persist();
-    const body = e.nativeEvent.path.find((el) => el.localName === "body");
-    const dateArea = e.nativeEvent.path.find((el) => el.id === "dateArea");
-    if (dateArea.style) {
-      dateArea.style.transition = "none";
-    }
-    if (body.style && body.style.overflowY !== "hidden") {
-      body.style.overflowY = "hidden";
-    }
-  };
+  // const handleTouchStart = (e) => {
+  //   e.persist();
+  //   const body = e.nativeEvent.path.find((el) => el.localName === "body");
+  //   const dateArea = e.nativeEvent.path.find((el) => el.id === "dateArea");
+  //   if (dateArea.style) {
+  //     dateArea.style.transition = "none";
+  //   }
+  //   if (body.style && body.style.overflowY !== "hidden") {
+  //     body.style.overflowY = "hidden";
+  //   }
+  // };
 
-  const handleTouchMove = (e) => {
-    e.persist();
-    if (
-      e.nativeEvent &&
-      e.nativeEvent.touches[0].pageY > 42 &&
-      e.nativeEvent.touches[0].pageY < 240
-    ) {
-      setSlideHeight(() => e.nativeEvent.touches[0].pageY);
-    }
-  };
+  // const handleTouchMove = (e) => {
+  //   e.persist();
+  //   if (
+  //     e.nativeEvent &&
+  //     e.nativeEvent.touches[0].pageY > 42 &&
+  //     e.nativeEvent.touches[0].pageY < 240
+  //   ) {
+  //     setSlideHeight(() => e.nativeEvent.touches[0].pageY);
+  //   }
+  // };
 
-  const handleTouchEnd = (e) => {
-    e.persist();
-    const body = e.nativeEvent.path.find((el) => el.localName === "body");
-    const dateArea = e.nativeEvent.path.find((el) => el.id === "dateArea");
-    if (dateArea.style) {
-      dateArea.style.transition = "all 0.2s ease";
-    }
-    if (body.style && body.style.overflowY === "hidden") {
-      body.style.overflowY = "scroll";
-    }
-    if (slideHeight >= 150) {
-      setSlideHeight(() => MAX_HEIGHT);
-    } else if (slideHeight < 150) {
-      setSlideHeight(() => 42);
-    }
-  };
+  // const handleTouchEnd = (e) => {
+  //   e.persist();
+  //   const body = e.nativeEvent.path.find((el) => el.localName === "body");
+  //   const dateArea = e.nativeEvent.path.find((el) => el.id === "dateArea");
+  //   if (dateArea.style) {
+  //     dateArea.style.transition = "all 0.2s ease";
+  //   }
+  //   if (body.style && body.style.overflowY === "hidden") {
+  //     body.style.overflowY = "scroll";
+  //   }
+  //   if (slideHeight >= 150) {
+  //     setSlideHeight(() => MAX_HEIGHT);
+  //   } else if (slideHeight < 150) {
+  //     setSlideHeight(() => 42);
+  //   }
+  // };
 
   const handleClick = (e) => {
     e.persist();

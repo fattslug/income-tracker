@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Anchor, Box } from "grommet";
+import { Anchor } from "grommet";
 
 import styles from "../../screens/Login.module.scss";
 

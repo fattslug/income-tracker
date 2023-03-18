@@ -1,26 +1,38 @@
-import React, { useState, useEffect } from 'react';
-import moment from 'moment';
+import React, { useState, useEffect } from "react";
+import moment from "moment";
 
-import DraggableArea from './DraggableArea';
+import DraggableArea from "./DraggableArea";
 
-import './FilterArea.scss';
+import "./FilterArea.scss";
 
 const FilterArea = (props) => {
-  const [startDate, setStartDate] = useState(moment().startOf('year'));
+  const [startDate, setStartDate] = useState(moment().startOf("year"));
   const [endDate, setEndDate] = useState(moment());
-  const [paymentTypes, setPaymentTypes] = useState([0, 1, 2, 3])
-  const DISPLAY_FORMAT = 'MMM D YYYY';
-  
+  const [paymentTypes, setPaymentTypes] = useState([0, 1, 2, 3]);
+  const DISPLAY_FORMAT = "MMM D YYYY";
+
+  const {
+    setStartDate: setStartDateProp,
+    setEndDate: setEndDateProp,
+    setPaymentTypes: setPaymentTypesProp,
+  } = props;
   useEffect(() => {
-    props.setStartDate(startDate);
-    props.setEndDate(endDate);
-    props.setPaymentTypes(paymentTypes);
-  }, [startDate, endDate, paymentTypes]);
+    setStartDateProp(startDate);
+    setEndDateProp(endDate);
+    setPaymentTypesProp(paymentTypes);
+  }, [
+    setStartDateProp,
+    setEndDateProp,
+    setPaymentTypesProp,
+    startDate,
+    endDate,
+    paymentTypes,
+  ]);
 
   const setDateRange = (presetName) => {
     setStartDate(dateRangePresets[presetName].startDate);
     setEndDate(dateRangePresets[presetName].endDate);
-  }
+  };
 
   const updatePaymentTypeArray = (typeIndex) => {
     if (paymentTypes.includes(typeIndex)) {
@@ -36,29 +48,32 @@ const FilterArea = (props) => {
         return newState;
       });
     }
-  }
+  };
 
   return (
     <DraggableArea
-      head={(
+      head={
         <div className="date-range">
           <div>{startDate.format(DISPLAY_FORMAT)}</div>
-          <img src="assets/images/next.svg" alt="to" className='to' />
+          <img src="assets/images/next.svg" alt="to" className="to" />
           <div>{endDate.format(DISPLAY_FORMAT)}</div>
         </div>
-      )}
-      body={(
+      }
+      body={
         <>
           <div className="filter-section">
-          <div className="filter-label">Select a date range:</div>
+            <div className="filter-label">Select a date range:</div>
             <div className="quick-options">
               {Object.keys(dateRangePresets).map((key) => {
-                const isActive = dateRangePresets[key].startDate.format(DISPLAY_FORMAT) === startDate.format(DISPLAY_FORMAT)
-                  && dateRangePresets[key].endDate.format(DISPLAY_FORMAT) === endDate.format(DISPLAY_FORMAT);
+                const isActive =
+                  dateRangePresets[key].startDate.format(DISPLAY_FORMAT) ===
+                    startDate.format(DISPLAY_FORMAT) &&
+                  dateRangePresets[key].endDate.format(DISPLAY_FORMAT) ===
+                    endDate.format(DISPLAY_FORMAT);
                 return (
                   <button
                     key={key}
-                    className={`quick-option ${isActive && 'active'}`}
+                    className={`quick-option ${isActive && "active"}`}
                     onClick={() => setDateRange(key)}
                   >
                     {dateRangePresets[key].label}
@@ -77,7 +92,7 @@ const FilterArea = (props) => {
                   <button
                     key={typeKey}
                     onClick={() => updatePaymentTypeArray(index)}
-                    className={`${typeKey} ${isActive && 'active'}`}
+                    className={`${typeKey} ${isActive && "active"}`}
                   >
                     {paymentTypesPresets[typeKey].label}
                   </button>
@@ -86,57 +101,57 @@ const FilterArea = (props) => {
             </div>
           </div>
         </>
-      )}
+      }
     />
   );
-}
+};
 
 const dateRangePresets = {
   pastWeek: {
-    label: 'Past Week',
-    startDate: moment().subtract(7, 'days'),
-    endDate: moment()
+    label: "Past Week",
+    startDate: moment().subtract(7, "days"),
+    endDate: moment(),
   },
   weekToDate: {
-    label: 'Week-to-date',
-    startDate: moment().startOf('week').add(2, 'days'),
-    endDate: moment()
+    label: "Week-to-date",
+    startDate: moment().startOf("week").add(2, "days"),
+    endDate: moment(),
   },
   pastMonth: {
-    label: 'Past Month',
-    startDate: moment().subtract(30, 'days'),
-    endDate: moment()
+    label: "Past Month",
+    startDate: moment().subtract(30, "days"),
+    endDate: moment(),
   },
   monthToDate: {
-    label: 'Month-to-date',
-    startDate: moment().startOf('month'),
-    endDate: moment()
+    label: "Month-to-date",
+    startDate: moment().startOf("month"),
+    endDate: moment(),
   },
   pastYear: {
-    label: 'Past Year',
-    startDate: moment().subtract(365, 'days'),
-    endDate: moment()
-  }, 
+    label: "Past Year",
+    startDate: moment().subtract(365, "days"),
+    endDate: moment(),
+  },
   yearToDate: {
-    label: 'Year-to-date',
-    startDate: moment().startOf('year'),
-    endDate: moment()
-  }
-}
+    label: "Year-to-date",
+    startDate: moment().startOf("year"),
+    endDate: moment(),
+  },
+};
 
 const paymentTypesPresets = {
   cash: {
-    label: 'Cash'
+    label: "Cash",
   },
   credit: {
-    label: 'Credit'
+    label: "Credit",
   },
   venmo: {
-    label: 'Venmo'
+    label: "Venmo",
   },
   apple: {
-    label: 'Apple Pay'
-  }
+    label: "Apple Pay",
+  },
 };
 
 export default FilterArea;
