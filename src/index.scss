@@ -1,23 +1,26 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=swap");
 
 input,
 textarea,
 button,
 select,
 a {
-  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 a {
   text-decoration: none;
 }
 
-body, html {
+body,
+html {
   height: 100vh;
 }
 
-body, html, button {
-  font-family: 'Open Sans', sans-serif;
+body,
+html,
+button {
+  font-family: "Open Sans", sans-serif;
   &:focus {
     outline: none;
   }
@@ -28,7 +31,6 @@ body, html, button {
   grid-template-columns: repeat(14, 1fr);
   max-width: 500px;
   margin: 0 auto;
-  height: 100%;
   animation-name: fadeIn;
   animation-duration: 2s;
   animation-fill-mode: forwards;
