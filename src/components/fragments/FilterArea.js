@@ -11,23 +11,12 @@ const FilterArea = (props) => {
   const [paymentTypes, setPaymentTypes] = useState([0, 1, 2, 3]);
   const DISPLAY_FORMAT = "MMM D YYYY";
 
-  const {
-    setStartDate: setStartDateProp,
-    setEndDate: setEndDateProp,
-    setPaymentTypes: setPaymentTypesProp,
-  } = props;
   useEffect(() => {
-    setStartDateProp(startDate);
-    setEndDateProp(endDate);
-    setPaymentTypesProp(paymentTypes);
-  }, [
-    setStartDateProp,
-    setEndDateProp,
-    setPaymentTypesProp,
-    startDate,
-    endDate,
-    paymentTypes,
-  ]);
+    props.setStartDate(startDate);
+    props.setEndDate(endDate);
+    props.setPaymentTypes(paymentTypes);
+    /* eslint-disable react-hooks/exhaustive-deps */
+  }, [startDate, endDate, paymentTypes]);
 
   const setDateRange = (presetName) => {
     setStartDate(dateRangePresets[presetName].startDate);
