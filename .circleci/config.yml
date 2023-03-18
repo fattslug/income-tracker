@@ -49,7 +49,7 @@ jobs:
 
       - run:
           name: Remove Old Build
-          command: ssh -o "StrictHostKeyChecking no" circleci@seanpowell.dev "cd /var/www/html; rm -rf income-tracker"
+          command: ssh -o "StrictHostKeyChecking no" circleci@seanpowell.dev "cd /var/www/html/seanpowelll.dev; rm -rf income-tracker"
 
       - run:
           name: Upload New Build
