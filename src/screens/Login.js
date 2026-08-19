@@ -11,7 +11,7 @@ const Login = () => {
 
   useEffect(() => {
     axios
-      .get("https://api.api-ninjas.com/v1/quotes?category=love", {
+      .get("https://api.api-ninjas.com/v2/quotes?category=love", {
         headers: { "X-Api-Key": process.env.REACT_APP_QUOTE_API_KEY },
       })
       .then((result) => {
