@@ -11,12 +11,15 @@ const Login = () => {
 
   useEffect(() => {
     axios
-      .get("https://api.api-ninjas.com/v1/quotes?category=love", {
-        headers: { "X-Api-Key": process.env.REACT_APP_QUOTE_API_KEY },
+      .get("https://love-quote.p.rapidapi.com/lovequote", {
+        headers: {
+          "X-Rapidapi-Key": process.env.REACT_APP_QUOTE_API_KEY,
+          "X-Rapidapi-Host": "love-quote.p.rapidapi.com",
+        },
       })
       .then((result) => {
-        setQuote(result.data[0].quote);
-        setAuthor(result.data[0].author);
+        setQuote(result.data.quote);
+        setAuthor(result.data.author);
       });
   }, []);
 
