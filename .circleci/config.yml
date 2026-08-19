@@ -25,7 +25,11 @@ jobs:
     working_directory: ~/repo
 
     steps:
-      - checkout
+      - run:
+          name: Checkout code
+          command: |
+            git clone https://github.com/fattslug/income-tracker.git .
+            git checkout $CIRCLE_SHA1
 
       # Download and cache dependencies
       - restore_cache:
